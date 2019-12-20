@@ -1,29 +1,26 @@
-\documentclass[aoas,preprint]{imsart}
-
+\documentclass[aap, preprint]{imsart}
 \RequirePackage[OT1]{fontenc}
 \RequirePackage{amsthm,amsmath}
 \RequirePackage{natbib}
 \RequirePackage[colorlinks,citecolor=blue,urlcolor=blue]{hyperref}
-\usepackage{amsmath}
-\usepackage{amsthm}
 \usepackage{amsfonts}
-\usepackage{wrapfig}
+\usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage[makeroom]{cancel}
+\usepackage{amsthm}
+\usepackage{array}
 \usepackage{bbm}
 \usepackage{bm}
 \usepackage{booktabs}
-\usepackage{float}
-\usepackage{amsthm}
-\usepackage{array}
-\usepackage{enumerate}
+\usepackage[makeroom]{cancel}
 \usepackage{color}
+\usepackage{float}
+\usepackage{enumerate}
 \usepackage{graphicx}
-\usepackage{newfloat}
 \usepackage{mathtools}
-\usepackage{caption}
+\usepackage{newfloat}
 \usepackage{subcaption}
 \usepackage{tocloft}
+\usepackage{wrapfig}
 % settings
 %\pubyear{2005}
 %\volume{0}
@@ -55,18 +52,7 @@ Chicago, IL 60637}
 \end{aug}
 
 \begin{abstract}
-% Studies on differential network analysis have focused on discrete populations rather than a continuously varying one. To fill this gap, we propose a way to model the covariance against a continuous covariate to address a wide range of differential network problems. We expand the past works of variance modeling (heteroskedasticity) to covariance modeling and propose a test statistic with nice asymptotic properties. Subsequently, we introduce a way to combine these test statistics to look at the hub nodes in particular to obtain a more global view of the network behavior. The simulations show that the proposed method, compared to alternative methods, performs well in terms of statistical power under more diverse scenarios of heteroskedasticity with much less computational cost. We apply this to GTEx data to analyze the dynamic behavior of the African Americans' gene-coexpression network against their genetic ancestry, and we identify transcription factors whose connectivity to their target genes changes with respect to the genetic ancestry.
-
-
-% Most standard statistical models assume that the residual variance is constant, while many applications such as network analysis requires a tool to model the variance term against a set of predictors. Here, we expand on past works that model the variance to modeling covariance between two variables. We devise a test statistic to see whether any of the predictors has a non-zero effect on the covariance. Subsequently, we introduce a way to combine these test statistics to look at analyze the relationship between one variable and multiple others. The simulations show that the proposed method, compared to alternative methods, performs well in terms of statistical power under more diverse scenarios of underlying model with much less computational cost. We apply this to GTEx data to analyze the dynamic behavior of the African Americans' gene-coexpression network against their genetic ancestry, and we identify transcription factors whose covariance with their target genes changes with respect to the genetic ancestry.
-
-% Most standard statistical models assume that the residual variance is constant, while many applications such as network analysis requires a tool to model the variance term against a set of predictors. Here, we expand on past works that model the variance to modeling covariance between two variables. We devise a test statistic to see whether any of the predictors has a non-zero effect on the covariance. Subsequently, we introduce a way to combine these test statistics to look at analyze the relationship between one variable and multiple others. The simulations show that the proposed method, compared to alternative methods, performs well in terms of statistical power under more diverse scenarios of underlying model with much less computational cost. We apply this to GTEx data to analyze the dynamic behavior of the African Americans' gene-coexpression network against their genetic ancestry, and we identify transcription factors whose covariance with their target genes changes with respect to the genetic ancestry.
-
-% We aim to study the effects of genetic differences in gene coexpression networks among different populations. One possible way is to compare discrete populations with existing differential network analysis tools, but such analysis would suffer from confounding effects of hidden environmental variables. Therefore, we develop a method that models the covariance between two genes to continuously vary with the genetic ancestry of African Americans. We tackle the following three main statistical challenges. First, since we are modeling covariance, we can no longer rely on the linearity assumption of predictor effect. Second, it is difficult to impose a specific structure on a continuously-varying covariance matrix. Third, the method must computationally scale well so that it can be applied to large genomic data sets. Subsequently, we propose a way to combine these test statistics to analyze the relationship between one gene and multiple others to obtain a more global view of the network behavior. Simulations show that the proposed method, compared to alternative methods, performs well in terms of statistical power under more diverse scenarios with much less computational cost. We apply this to GTEx data to analyze the dynamic behavior of the African Americans’ gene coexpression network against their genetic ancestry, and we identify transcription factors whose coexpression with their target genes changes with the genetic ancestry. We believe this method can be applied to a wide array of network problems.
-
-% To better understand the difference in biological processes among populations, we aim to study the effect of genetic ancestry on gene coexpression. We propose a method that can model the covariance between two variables to vary against a continuous covariate. We apply variable transformation to utilize past works on heteroskedasticity, and we offer a score test statistic that is robust to model misspecification, computationally simple, and inferentially unaffected by low sample size. Subsequently, we expand the method to test relationships between one hub-gene and many other genes to obtain a more global view of the coexpression network. Simulations show that the proposed method, compared to alternatives, has higher statistical power under more diverse scenarios with much less computational cost. We apply this method to GTEx data to analyze the dynamic behavior of the African Americans' gene coexpression against their genetic ancestry, and we identify transcription factors whose coexpressions with their target genes change with the genetic ancestry. We believe this method can be applied to a wide array of problems that require covariance modeling.
-
-In many biological studies on the transcriptome, the correlation of genes might fluctuate with quantitative factors such as genetic ancestry. We propose a method that can model the covariance between two variables to vary against a continuous covariate. For the bivariate case, we propose a score test statistic that is robust to model misspecification and computationally simple. Subsequently, we expand the method to test relationships between one highly connected gene, such as transcription factors, and several other genes to obtain a more global view of the dynamic of the coexpression network. Simulations show that the proposed method has higher statistical power than the alternatives, works under more diverse scenarios, and is computationally much cheaper. We apply this method to African American subjects from GTEx to analyze the dynamic behavior of their gene coexpression against genetic ancestry, and we identify transcription factors whose coexpressions with their target genes change with the genetic ancestry. We believe this method can be applied to a wide array of problems that require covariance modeling.
+In many biological studies on the transcriptome, the correlation of genes might fluctuate with quantitative factors such as genetic ancestry. We propose a method that can model the covariance between two variables to vary against a continuous covariate. For the bivariate case, we propose a score test statistic that is computationally simple and robust to model misspecification. Subsequently, we expand the method to test relationships between one highly connected gene, such as transcription factors, and several other genes to obtain a more global view of the dynamic of the coexpression network. Simulations show that the proposed method has higher statistical power than the alternatives, works under more diverse scenarios, and is computationally much cheaper. We apply this method to African American subjects from GTEx to analyze the dynamic behavior of their gene coexpression against genetic ancestry, and we identify transcription factors whose coexpressions with their target genes change with the genetic ancestry. We believe this method can be applied to a wide array of problems that require covariance modeling.
 \end{abstract}
 
 \begin{keyword}
@@ -477,11 +463,10 @@ First we check the calibration of test statistics under the null hypothesis. We 
 which is the inverse of Fisher transformation, 
 $\frac{1}{2} \bm{x}_i^T\bm{\alpha} = \frac{1}{2}log \left(\frac{1+\rho}{1-\rho}\right)$. Fisher-transformed $\rho$ asymptotically follows normal distribution, so it works well when $X$ is drawn from normal distribution. We use \textit{optim} function in R to find $\hat{\bm{\alpha}}_{\text{MLE}}$ under the alternative hypothesis. \\
 
-
 % Simulate under b_0 = 0 and beta = 0, because estimating MLEs of b_0, beta, and alpha all at the same time is numerically / computationally impossible. Make separate simulation with non-zero mean terms just for the score test.
 The results show that all three methods control the type I error at the nominal size well, where score and likelihood ratio test statistics both follow $\chi_1^2$ closely. So we focus on the small sample case $N=30$ as that is close to the size of the real data of African Americans' gene expression level.\\
 
-Next we generate the data under the alternative hypothesis to compare the statistical power. We pick the most difficult scenario of low sample size $N=30$, we again draw $X$ from standard normal distribution. Then for $i = 1, \cdots, N$, we generate $\rho(\bm{x}_i^T\bm{\alpha})$ from hyperbolic tangent function in (\ref{eq:data_generating_fisher}). Given $\rho$, we draw $Y$ from (\ref{eq1_y}) with varying levels of $\alpha$, 1000 times each. The hyperbolic tangent model places the likelihood ratio test at an advantage because the model is correctly specified, so as a contrasting case, we use a quadratic model to generate $\rho$ as follows. Subtracting 0.99 is to ensure numerical stability.
+Next we generate the data under the alternative hypothesis to compare the statistical power. We pick the most difficult scenario of low sample size $N=30$, we again draw $X$ from standard normal distribution. Then for $i = 1, \cdots, N$, we generate $\rho(\bm{x}_i^T\bm{\alpha})$ from hyperbolic tangent function in (\ref{eq:data_generating_fisher}). Given $\rho$, we draw $Y$ from (\ref{eq:framework_2genes}) with varying levels of $\alpha$, 1000 times each. The hyperbolic tangent model places the likelihood ratio test at an advantage because the model is correctly specified, so as a contrasting case, we use a quadratic model to generate $\rho$ as follows. Subtracting 0.99 is to ensure numerical stability.
 
 \begin{align}
     \rho(\bm{x}_i^T\bm{\alpha}) = (\bm{x}_i^T\bm{\alpha} - 0.1)^2 - 0.99
@@ -656,17 +641,19 @@ Our method is more flexible than other alternatives for covariance testing, but 
 
 We believe the proposed method can be applied to data problems in diverse domains, especially where certain ``hub" variables are connected to many other variables as in the transcriptional regulatory network. Many network problems, such as protein interactions, metabolic networks, co-authorship network, and semantic network, are known to have --- or have something close to --- scale-free topology, indicating that the important variables in those networks can be tested against other variables. The proposed correlation analysis will provide insights into the building blocks of diverse network problems by looking at the pairwise and more than pairwise relationships among the variables.
  
+\pagebreak 
 
+\bibliographystyle{imsart-nameyear}
+\bibliography{ref}
  
- \pagebreak
+\pagebreak
  
-\section{Appendix}
-\subsection{Derivation of $q$}
+\section*{Appendix A. Derivation of $q$}
 We start from the model in (\ref{eq:framework_2genes}). The hat notation is used to note the maximum likelihood estimates. The nuisance parameters can be replaced with their respective maximum likelihood estimators under the null hypothesis. When $\bm{\alpha} = \bm{0}$, $\alpha_0 = \hat{\alpha}_0$, $\hat{\bm{\beta}}$ and $\hat{\bm{b}}$ can be acquired from ordinary linear squares estimates. The variance terms $\hat{\rho}_{11}$ and $\hat{\rho}_{22}$ are
 $$\hat{\rho}_{11} =  \frac{\sum_{i=1}^{N}(y_{i1} - b_1 - \bm{x}_i^T\bm{\hat{\beta}}_{1})^2}{N}$$
 $$\hat{\rho}_{22}=  \frac{\sum_{i=1}^{N}(y_{i2} - b_2 - \bm{x}_i^T\bm{\hat{\beta}}_{2})^2}{N}$$
 
-Then we look at the likelihood after the variable transformation in (\ref{eq:transformed_2genes}).
+Then we look at the likelihood in \ref{eq:likelihood_2genes}.
 \begin{equation}
 \begin{multlined}
 \ell(\bm{\alpha}, \alpha_0, \bm{b}, \bm{\beta}, \rho_{11}, \rho_{22}) = \\
@@ -862,69 +849,8 @@ Finally, we get our score statistic
     \end{multlined}
 \end{equation}
 
-\pagebreak
 
-
-% \begin{align*}
-% I_{\bm{\alpha\alpha^T}} &= \frac{\partial^2 \ell}{\partial \bm{\alpha} \partial \bm{\alpha^T}} \\
-% &= 
-% -\frac{1}{2} \frac{\partial}{\partial {\bm{\alpha}}} 
-% \sum_{i=1}^{N} \bm{x}_i\frac{2\rho'(\bm{x}_i^T\bm{\alpha})}{\sigma_{wi}^2}\left( 1- \frac{{u}_{vi}^2}{\sigma_{wi}^2}\right) + \frac{1}{2} \sum_{i=1}^{N} \bm{x}_i \frac{-2\rho'(\bm{x}_i^T\bm{\alpha})}{2-2\rho(\bm{x}_i^T\bm{\alpha})} \left(1 - \frac{{u}_{vi}^2}{2-2\rho(\bm{x}_i^T\bm{\alpha})} \right)\\
-% &= -\frac{1}{2} \sum_{i=1}^{N} \bm{x}_i \bm{x}_i^T \bigg(\frac{(\sigma_{wi}^2) (\sigma_{wi}^2)-{u}_{wi}^2) 2\rho''(\bm{x}_i^T\bm{\alpha}) + (2{u}_{wi}^2 - (\sigma_{wi}^2))(2\rho'(\bm{x}_i^T\bm{\alpha}))^2}{(\sigma_{wi}^2)^3} \\
-% & \hspace{8mm} - \frac{(2-2\rho(\bm{x}_i^T\bm{\alpha})) (2-2\rho(\bm{x}_i^T\bm{\alpha})-{u}_{vi}^2) (-2\rho''(\bm{x}_i^T\bm{\alpha})) + (2{u}_{vi}^2 - (2-2\rho(\bm{x}_i^T\bm{\alpha})))(-2\rho'(\bm{x}_i^T\bm{\alpha}))^2}{(2-2\rho(\bm{x}_i^T\bm{\alpha}))^3}  \bigg)\\
-% & = -\frac{1}{2} \sum_{i=1}^{N} \bm{x}_i \bm{x}_i^T\left(
-% 2\rho''(\bm{x}_i^T\bm{\alpha}) \left( \frac{(2+2\rho(\bm{x}_i^T\bm{\alpha}))(2+2\rho(\bm{x}_i^T\bm{\alpha})-u_{wi}^2)}{(2+2\rho(\bm{x}_i^T\bm{\alpha}))^3} + \frac{(2-2\rho(\bm{x}_i^T\bm{\alpha}))(2-2\rho(\bm{x}_i^T\bm{\alpha})-u_{vi}^2)}{(2-2\rho(\bm{x}_i^T\bm{\alpha}))^3} \right) \\
-% & \hspace{8mm} +2\rho'(\bm{x}_i^T\bm{\alpha})^2 \left( \frac{2u_{wi}^2 - (2+2\rho(\bm{x}_i^T\bm{\alpha}))}{(2+2\rho(\bm{x}_i^T\bm{\alpha}))^3} + \frac{2u_{vi}^2 - (2-2\rho(\bm{x}_i^T\bm{\alpha}))}{(2-2\rho(\bm{x}_i^T\bm{\alpha}))^3}\right)
-% \right)
-% \end{align*}
-% Plugging in $\bm{\alpha} = \bm{0}$ and $\bm{\beta} = \hat{\bm{\beta}}_{\text{MLE}}$, above becomes
-% \begin{align*}
-% &\tilde{I}_{\bm{\alpha\alpha^T}} = 
-% {I}_{\bm{\alpha\alpha}}\mid_{\bm{\alpha}=\bm{0}, \bm{\beta} = \bm{\hat{\beta}}_{\text{MLE}}}\\
-% &= -\frac{1}{2} \sum_{i=1}^{N} \bm{x_i x_i}^T\bigg(
-% \frac{\hat{\sigma}_w^2 (\hat{\sigma}_w^2 - \hat{u}^2_{wi}) 2\rho''(0)  + (2\hat{u}_{wi}^2 - \hat{\sigma}_w^2)(2\rho'(0))^2}{\hat{\sigma}_w^6} - \frac{\hat{\sigma}_v^2(\hat{\sigma}_v^2 - \hat{u}_{vi}^2)2\rho''(0) + (2\hat{u}_{vi}^2 - \hat{\sigma}_v^2)(2\rho'(0))^2}{\hat{\sigma}_v^6}
-% \bigg)\\
-% &= -{\rho''(0)}\sum_{i=1}^{N}\bm{x_ix_i}^T \bigg(
-% \frac{\hat{\sigma}_w^2(\hat{\sigma}_w^2 - \hat{u}_{wi}^2)}{\hat{\sigma}_w^6} - \frac{\hat{\sigma}_v^2(\hat{\sigma}_v^2 - \hat{u}_{vi}^2)}{\hat{\sigma}_v^6}
-% \bigg) - 2\rho'(0)^2 \sum_{i=1}^{N} \bm{x_i^Tx_i} \bigg( 
-% \frac{2\hat{u}_{wi}^2 - \hat{\sigma}_w^2}{\hat{\sigma}_w^6} - \frac{2\hat{u}_{vi}^2 - \hat{\sigma}_v^2}{\hat{\sigma}_v^6}
-% \bigg)
-% \end{align*}
-% Since $\hat{\sigma}_w^2 = \frac{1}{N} \sum_{i=1}^{N} \hat{u}_{wi}^2$, 
-% $$\sum_{i=1}^{N} \bm{x_ix_i}^T\frac{\hat{\sigma}_w^2(\hat{\sigma}_w^2-\hat{u}_{wi}^2)}{\hat{\sigma}_w^6}
-%  =\frac{1}{\hat{\sigma}_w^4} \sum_{i=1}^{N}  \bigg( 
-% \frac{1}{N} \bm{x_i^Tx_i} \sum_{j=1}^{N} {\hat{u}_{wj}^2}  - \bm{x_i^Tx_i} \hat{u}_{wi}^2
-%  \bigg) = 0 $$
-%  and similarly,
-%  $$\sum_{i=1}^{N} \bm{x_i^Tx_i} \frac{\hat{\sigma}_v^2(\hat{\sigma}_v^2 - \hat{u}_{vi}^2)}{\hat{\sigma}_v^6} = 0.$$
-%  Therefore, 
-% \begin{align*}
-% \tilde{I}_{\bm{\alpha\alpha}} &= {I}_{\bm{\alpha\alpha}}\mid_{\bm{\alpha}=\bm{0}, \bm{\beta} = \bm{\hat{\beta}}_{\text{MLE}}} \\
-% &= 2\rho'(0)^2 \left( \frac{1}{\hat{\sigma}_w^4}  + \frac{1}{\hat{\sigma}_v^4}\right)\sum_{i=1}^{N}  \bm{x}_i \bm{x}_i^T
-% \end{align*}
-
-%  Therefore, the test statistic $q$ is 
-% \begin{equation}
-% q = \tilde{d}_{\bm{\alpha}} \tilde{I}_{\bm{\alpha\alpha}}^{-1} \tilde{d}_{\bm{\alpha}}
-% \label{original_LM}
-% \end{equation}
-% $$ = \frac{1}{2} \cdot \frac{1}{\frac{1}{\hat{\sigma}_w^4} + \frac{1}{\hat{\sigma}_v^4}} \left(
-% \sum_{i=1}^{N} \bm{x_{i}} 
-% \left(
-% \frac{1}{\hat{\sigma}_w^2} - \frac{\hat{u}_{wi}^2}{\hat{\sigma}_w^4}\right)  - \left( \frac{1}{\hat{\sigma}_v^2} - \frac{\hat{u}_{vi}^2}{\hat{\sigma}_v^4}
-% \right)
-% \right)^T 
-% \left( \sum_{i=1}^{N} \bm{x_i^T x_i} \right)^{-1}
-% \left(
-% \sum_{i=1}^{N} \bm{x_{i}} 
-% \left(
-% \frac{1}{\hat{\sigma}_w^2} - \frac{\hat{u}_{wi}^2}{\hat{\sigma}_w^4}\right)  - \left( \frac{1}{\hat{\sigma}_v^2} - \frac{\hat{u}_{vi}^2}{\hat{\sigma}_v^4}
-% \right)
-% \right)
-% $$
-
-
-\subsection{Derivation of $\eta_{12,13}$}
+\section*{Appendix B. Derivation of $\eta_{12,13}$}
 We start from the test statistic $q$ computed when the covariates have been orthogonalized.
 $$q = \sum_{p=1}^{P}
  \left(\frac{1}{\sqrt{N}}
@@ -983,40 +909,16 @@ $$cov(r_{12,p}, r_{13,p}) = E(r_{12,p}r_{13,p}) - E(r_{12,p})E(r_{13,p}) = E(r_{
     - \frac{\hat{\tau}_{12}(\hat{\tau}_{13}^2 + 1) (\hat{u}_{1i}\hat{u}_{3i})(\hat{u}_{1i}^2 + \hat{u}_{2i}^2) + \hat{\tau}_{13}(\hat{\tau}_{12}^2+1)(\hat{u}_{1i}\hat{u}_{2i})(\hat{u}_{1i}^2 + \hat{u}_{3i}^2)}{N(1-\hat{\tau}_{12}^2)(1-\hat{\tau}_{13}^2)\sqrt{(1+\hat{\tau}_{12}^2)(1+\hat{\tau}_{13}^2)}}
     \end{multlined} 
     \end{equation}
-    % + \frac{(1-\hat{\tau}_{12}^2)(1-\hat{\tau}_{13}^2)\hat{\tau}_{12}\hat{\tau}_{13}}{N(1-\hat{\tau}_{12}^2)(1-\hat{\tau}_{13}^2)\sqrt{(1+\hat{\tau}_{12}^2)(1+\hat{\tau}_{13}^2)}}\\
-    % - \frac{(1-\hat{\tau}_{12}^2)\hat{\tau}_{12}(\hat{u}_{1i}\hat{u}_{3i}(\hat{\tau}_{13}^2+1)) + 
-    % (1-\hat{\tau}_{13}^2)\hat{\tau}_{13}(\hat{u}_{1i}\hat{u}_{2i}(\hat{\tau}_{12}^2+1))}{N(1-\hat{\tau}_{12}^2)(1-\hat{\tau}_{13}^2)\sqrt{(1+\hat{\tau}_{12}^2)(1+\hat{\tau}_{13}^2)}}\\
-    % - \frac{(1-\hat{\tau}_{12}^2)\hat{\tau}_{12}\hat{\tau}_{13}(\hat{u}_{1i}^2 + \hat{u}_{3i}^2) + (1-\hat{\tau}_{13}^2) \hat{\tau}_{13}\hat{\tau}_{12}(\hat{u}_{1i}^2 +\hat{u}_{2i}^2)}{N(1-\hat{\tau}_{12}^2)(1-\hat{\tau}_{13}^2)\sqrt{(1+\hat{\tau}_{12}^2)(1+\hat{\tau}_{13}^2)}}
-
-% \begin{equation}\begin{multlined}
-% = \frac{(\tau_{23}+2\tau_{12}\tau_{23})(\tau_{12}^2+1)(\tau_{13}^2+1) + \tau_{12}\tau_{13}(6+2(\tau_{12}^2+\tau_{13}^2+\tau_{23}^2))}{(1-{\tau}_{12}^2)(1-{\tau}_{13}^2)\sqrt{(1+{\tau}_{12}^2)(1+{\tau}_{13}^2)}} \\
-% - \frac{\tau_{12}(\tau_{13}^2+1)(3\tau_{13}+\tau_{13}+2\tau_{12}\tau_{23}) + \tau_{13}(\tau_{12}^2+1)(3\tau_{12}+\tau_{12}+2\tau_{13}\tau_{23})}{(1-{\tau}_{12}^2)(1-{\tau}_{13}^2)\sqrt{(1+{\tau}_{12}^2)(1+{\tau}_{13}^2)}}\\
-% + \frac{(1-\tau_{12})^2(1-\tau_{13}^2)\tau_{12}\tau_{13}}{(1-{\tau}_{12}^2)(1-{\tau}_{13}^2)\sqrt{(1+{\tau}_{12}^2)(1+{\tau}_{13}^2)}}\\
-% - \frac{(1-\tau_{12}^2)\tau_{12}\tau_{13}(\tau_{13}^2+1) + (1-\tau_{13}^2)\tau_{13}\tau_{12}(\tau_{12}^2+1)}{(1-{\tau}_{12}^2)(1-{\tau}_{13}^2)\sqrt{(1+{\tau}_{12}^2)(1+{\tau}_{13}^2)}}\\
-% - \frac{2(1-\tau_{12}^2)\tau_{12}\tau_{13} + 2(1-\tau_{13}^2)\tau_{13}\tau_{12}}{(1-{\tau}_{12}^2)(1-{\tau}_{13}^2)\sqrt{(1+{\tau}_{12}^2)(1+{\tau}_{13}^2)}}
-% \end{multlined} \end{equation}
+    
 \begin{equation} \begin{multlined}
 = \frac{(\tau_{23}+2\tau_{12}\tau_{13})(\tau_{12}^2+1)(\tau_{13}^2+1) + \tau_{12}\tau_{13}(6+2(\tau_{12}^2+\tau_{13}^2+\tau_{23}^2))}{(1-{\tau}_{12}^2)(1-{\tau}_{13}^2)\sqrt{(1+{\tau}_{12}^2)(1+{\tau}_{13}^2)}} \\
-- \frac{\tau_{12}(\tau_{13}^2+1)(4\tau_{13}+2\tau_{12}\tau_{23}) + \tau_{13}(\tau_{12}^2+1)(4\tau_{12}+2\tau_{13}\tau_{23})}{(1-{\tau}_{12}^2)(1-{\tau}_{13}^2)\sqrt{(1+{\tau}_{12}^2)(1+{\tau}_{13}^2)}}\\
-% + \frac{3\tau_{12}^3\tau_{13}^3 + \tau_{12}^3\tau_{13} + \tau_{12}\tau_{13}^3 - 5\tau_{12}\tau_{13}}{(1-{\tau}_{12}^2)(1-{\tau}_{13}^2)\sqrt{(1+{\tau}_{12}^2)(1+{\tau}_{13}^2)}}
+- \frac{\tau_{12}(\tau_{13}^2+1)(4\tau_{13}+2\tau_{12}\tau_{23}) + \tau_{13}(\tau_{12}^2+1)(4\tau_{12}+2\tau_{13}\tau_{23})}{(1-{\tau}_{12}^2)(1-{\tau}_{13}^2)\sqrt{(1+{\tau}_{12}^2)(1+{\tau}_{13}^2)}}
 \end{multlined} \end{equation}
 from
 $$E(\hat{u}_{i1}^4) = 3, \hspace{5mm} E(\hat{u}_{i1}^3 \hat{u}_{i2}) = 3\tau_{12}, \hspace{5mm} E(\hat{u}_{i1}^2\hat{u}_{i2}^2) = 1 + 2\tau_{12}^2,$$
 $$E(\hat{u}_{i1}^2 \hat{u}_{i2} \hat{u}_{i3}) = \tau_{23} + 2\tau_{12}\tau_{13}.$$
 
-
-
-% $$\frac{numerator}{(1-\rho_{12}^4)(1-\rho_{13}^2)}$$
-
-% \begin{align*}
-%     numerator = &\rho_{12}^4\rho_{13}^2 + \rho_{12}^4 - 2\rho_{12}^3 \rho_{13}^3 - 4 \rho_{12}^3\rho_{13}\rho_{23} + 2 \rho_{12}^3\rho_{13} + \rho_{12}^2\rho_{13}^4 \\
-%     & + \rho_{12}^2\rho_{13}^2\rho_{23}^2 + 5\rho_{12}^2\rho_{13}^2 + \rho_{12}^2\rho_{23}^2 - 4\rho_{12}^2 - 4\rho_{12}\rho_{13}^3\rho_{23} + 2\rho_{12}\rho_{13}^3 - 2\rho_{12}\rho_{13} + \rho_{13}^4\\
-%     & + \rho_{13}^2\rho_{23}^2 - 4\rho_{13}^2 + \rho_{23}^2 + 3
-% \end{align*}
-
-\pagebreak
-
-\subsection{Small Sample Correction}
+\section{Appendix C. Details of Small Sample Correction}
 Although the introduced test statistic $q$ asymptotically follows $\chi_1^2$, the sample size is not large enough in many applications. The statistic has its error in the order of $N^{-1}$ \cite{harris1985asymptotic}, and many Monte Carlo experiments show that the test rejects the null hypothesis less frequently than indicated by its nominal size \cite{godfrey1978testing, griffiths1986monte, honda1988size} . In response, Harris (1985) used Edgeworth expansion to obtain the distribution and moment generating function to order $n^{-1}$ of the test statistic \cite{harris1985asymptotic}. Building on this expansion, Honda (1986) and Cribari-Neto and Ferrari (2001) proposed corrections to the critical value or to the test statistic that allows better inference even when the sample size is small while preserving the asymptotic properties. \cite{cribari1995improved, cribari2001monotonic, honda1988size}\\
 
 Honda (1988) provided a closed-form formula to adjust the critical value in the order of $O(n^{-1})$ to correct the type I error of the test. This adjustment, only depending on the covariate, sample size, and the degrees of freedom, but not on the data, is a cubic function with respect to $C_{\gamma}$, the critical value at the level of type I error $\gamma$, i.e. $P(\chi_{P}^2 \geq C_{\gamma}) = \gamma$, and we refer to this cubic function as $g$ defined as follows.
@@ -1043,7 +945,7 @@ The first two terms inside the square root are $O(1)$ and the last term is $O(n)
 
 Similar argument is offered in Cribari (1995) \cite{cribari1995improved}. Based on the correction of the critical value in (\ref{eq:hondacorrection}), Cribari (1995) proposes to subtract the correction $\tilde{g}(C_{\gamma})$ so that
 $$P(q  \geq g(C_{\gamma})) = P(q \geq C_{\gamma} + \tilde{g}(C_{\gamma})) = P(q - \tilde{g}(C_{\gamma}) \geq C_{\gamma}).$$
-This treats the correction as de-biasing instead of changing the overall shape of the distribution. Although this adjustment of the test statistic corrects the size of the test at a given threshold, it prevents further analysis when we combine the test statistics in section (\ref{eq:d}).
+This treats the correction as de-biasing instead of changing the overall shape of the distribution. Although this adjustment of the test statistic corrects the size of the test at a given threshold, it prevents further analysis when we combine the test statistics in (\ref{eq:d}). 
 
 \vspace{5mm} 
 Instead, we aim to adjust the test statistic so that the overall shape of null distribution is closer to $\chi_{P}^2$. We assume a large enough sample size for monotonicity of $g$ and define the inverse function of $g$ to propose the new adjusted test statistic $\tilde{q}_{12}$ = $g^{-1}(q)$
@@ -1051,11 +953,6 @@ $$\gamma = P(\chi_{P}^2 \geq C_{\gamma}) = P(q \geq g(C_{\gamma})) = P(g^{-1}(q)
 Our final test statistic $\tilde{q}_{12}$ is the real solution to the following equation 
 $$q - g(C_{\gamma}) = 0$$
 which is guaranteed to be unique by the monotonicity of $g$. The cubic equation can be solved both analytically and numerically efficiently given the covariate $X$. 
-
-\pagebreak 
-
-\bibliographystyle{plain}
-\bibliography{ref}
 
 
 
