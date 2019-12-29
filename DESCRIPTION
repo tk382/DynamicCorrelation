@@ -16,5 +16,6 @@ VignetteBuilder: knitr
 Imports:
     Rcpp,
     RcppArmadillo,
-    stats
+    stats,
+    MASS
 RoxygenNote: 6.1.1
