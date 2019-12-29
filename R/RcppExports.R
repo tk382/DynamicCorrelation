@@ -9,17 +9,34 @@ const_c <- function(sigw, sigv) {
     .Call('_DynamicCorrelation_const_c', PACKAGE = 'DynamicCorrelation', sigw, sigv)
 }
 
-#' get_score_c
+#' get_score
 #' The order of y1 and y2 does not matter.
 #'
 #' @param y1 observation of the first variable
 #' @param y2 observation of the second variable
 #' @param x covariate vector
-#' @param coef coefficients for the cubic function. see cubic_coeff_c
 #'
 #' @export
-get_score_c <- function(x, y1, y2) {
-    .Call('_DynamicCorrelation_get_score_c', PACKAGE = 'DynamicCorrelation', x, y1, y2)
+#' @example
+#' x = rnorm(100)
+#' y1 = rnorm(100)
+#' y2 = rnorm(100)
+#' q = get_score(x, y1, y2)
+get_score <- function(x, y1, y2) {
+    .Call('_DynamicCorrelation_get_score', PACKAGE = 'DynamicCorrelation', x, y1, y2)
+}
+
+#' get_score_wv_c
+#'
+#' This function takes the sum of two variables, w, the difference of them, v, and one dimensional covariate x
+#' and returns the score test statistic
+#'
+#' @param x Covariate vector
+#' @param w sum of variable1 and variable2
+#' @param v difference of variable1 and variable2
+#' @export
+get_score_wv_c <- function(x, w, v) {
+    .Call('_DynamicCorrelation_get_score_wv_c', PACKAGE = 'DynamicCorrelation', x, w, v)
 }
 
 #' mvrnormArma
@@ -35,33 +52,6 @@ mvrnormArma <- function(n, mu, Sigma) {
     .Call('_DynamicCorrelation_mvrnormArma', PACKAGE = 'DynamicCorrelation', n, mu, Sigma)
 }
 
-#' get_score_w_c
-#'
-#' This function takes the sum of two variables, w, the difference of them, v, and p dimensional covariate x
-#' and returns the score test statistic
-#'
-#' @param x Covariate vector
-#' @param w sum of variable1 and variable2
-#' @param v difference fo variable 1 and variable 2
-#' @export
-get_score_w_c <- function(x, w, v) {
-    .Call('_DynamicCorrelation_get_score_w_c', PACKAGE = 'DynamicCorrelation', x, w, v)
-}
-
-#' get_score_W_c
-#'
-#' This function returns a vector of score statistics from one dimensional covariate x and coexpression matrix W
-#' W should be in the form of (y1+y2, y1+y3, ... y1+yK)
-#' The function returns K-1 scores for each pair
-#'
-#' @param x Covariate vector
-#' @param W Sums for each pairs of variables
-#' @param V Differences for each pairs of variables
-#' @export
-get_score_W_c <- function(x, W, V) {
-    .Call('_DynamicCorrelation_get_score_W_c', PACKAGE = 'DynamicCorrelation', x, W, V)
-}
-
 #' get_degree_c
 #'
 #' This function returns a sum statistic d for vector y tested with all other variables in matrix Y against covariate x
@@ -70,30 +60,18 @@ get_score_W_c <- function(x, W, V) {
 #' @param y Variable of interest
 #' @param Y All other variables to test with y
 #' @export
-get_degree_c <- function(x, y, Y) {
-    .Call('_DynamicCorrelation_get_degree_c', PACKAGE = 'DynamicCorrelation', x, y, Y)
-}
-
-#' get_degree_c
-#'
-#' This function returns a sum statistic d for vector y tested with all other variables in matrix Y against covariate x
-#'
-#' @param x Covariate vector
-#' @param W Matrix of [y1+y2, y1+y3, .., y1+yK]
-#' @param V Matrix of [y1-y2, y1-y3, ..., y1-yK]
-#' @export
-get_degree_w_c <- function(x, W, V) {
-    .Call('_DynamicCorrelation_get_degree_w_c', PACKAGE = 'DynamicCorrelation', x, W, V)
+get_degree <- function(x, y, Y) {
+    .Call('_DynamicCorrelation_get_degree', PACKAGE = 'DynamicCorrelation', x, y, Y)
 }
 
 #' @export
-get_eta_c <- function(rho12, rho23, rho13) {
-    .Call('_DynamicCorrelation_get_eta_c', PACKAGE = 'DynamicCorrelation', rho12, rho23, rho13)
+get_eta <- function(rho12, rho23, rho13) {
+    .Call('_DynamicCorrelation_get_eta', PACKAGE = 'DynamicCorrelation', rho12, rho23, rho13)
 }
 
 #' @export
-get_H_c <- function(Sigma) {
-    .Call('_DynamicCorrelation_get_H_c', PACKAGE = 'DynamicCorrelation', Sigma)
+get_H <- function(Sigma) {
+    .Call('_DynamicCorrelation_get_H', PACKAGE = 'DynamicCorrelation', Sigma)
 }
 
 #' @export
@@ -116,40 +94,9 @@ get_TT_RR_c <- function(A) {
     .Call('_DynamicCorrelation_get_TT_RR_c', PACKAGE = 'DynamicCorrelation', A)
 }
 
-#' small_sample_correction_c
-#'
-#' This function returns a sum statistic d for vector y tested with all other variables in matrix Y against covariate x
-#'
-#' @param x Covariate vector
-#' @param C chi-squared threshold for desired FDR rate
-#' @param k number of covariates + 1
-#' @param p number of covariates + 1
 #' @export
-small_sample_correction_c <- function(x, C, k, p = 2L) {
-    .Call('_DynamicCorrelation_small_sample_correction_c', PACKAGE = 'DynamicCorrelation', x, C, k, p)
-}
-
-#' @export
-cubic_correction_c <- function(x, C, k, p) {
-    .Call('_DynamicCorrelation_cubic_correction_c', PACKAGE = 'DynamicCorrelation', x, C, k, p)
-}
-
-#' @export
-cubic_coeff_c <- function(A, C, k, p) {
-    .Call('_DynamicCorrelation_cubic_coeff_c', PACKAGE = 'DynamicCorrelation', A, C, k, p)
-}
-
-#' simulate_c
-#'
-#' Given fixed covariate and covariance matrix, this function simulates multivariate normal Y
-#' and returns the score vector for each variable
-#'
-#' @param x Covariate vector
-#' @param Sigma true covariance matrix of matrix Y
-#' @param use_Hhat Boolean argument whether to use true Sigma or estimate Sigma
-#' @export
-simulate_c <- function(x, Sigma, use_Hhat = TRUE) {
-    .Call('_DynamicCorrelation_simulate_c', PACKAGE = 'DynamicCorrelation', x, Sigma, use_Hhat)
+cubic_coeff <- function(x, C) {
+    .Call('_DynamicCorrelation_cubic_coeff', PACKAGE = 'DynamicCorrelation', x, C)
 }
 
 #' @export
@@ -174,7 +121,8 @@ store_V_c <- function(y, smallY) {
 #'
 #' @param x Covariate vector
 #' @param B number of permutations
-#' @param W transformed variable matrix
+#' @param W sum of the main variable and each target
+#' @param V difference of the main variable and each target
 #' @export
 bootstrap_c <- function(x, B, W, V) {
     .Call('_DynamicCorrelation_bootstrap_c', PACKAGE = 'DynamicCorrelation', x, B, W, V)

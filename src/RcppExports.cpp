@@ -33,16 +33,29 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// get_score_c
-double get_score_c(const arma::mat x, const arma::vec y1, const arma::vec y2);
-RcppExport SEXP _DynamicCorrelation_get_score_c(SEXP xSEXP, SEXP y1SEXP, SEXP y2SEXP) {
+// get_score
+double get_score(const arma::mat x, const arma::vec y1, const arma::vec y2);
+RcppExport SEXP _DynamicCorrelation_get_score(SEXP xSEXP, SEXP y1SEXP, SEXP y2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat >::type x(xSEXP);
     Rcpp::traits::input_parameter< const arma::vec >::type y1(y1SEXP);
     Rcpp::traits::input_parameter< const arma::vec >::type y2(y2SEXP);
-    rcpp_result_gen = Rcpp::wrap(get_score_c(x, y1, y2));
+    rcpp_result_gen = Rcpp::wrap(get_score(x, y1, y2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_score_wv_c
+double get_score_wv_c(const arma::mat x, const arma::vec w, const arma::vec v);
+RcppExport SEXP _DynamicCorrelation_get_score_wv_c(SEXP xSEXP, SEXP wSEXP, SEXP vSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::vec >::type w(wSEXP);
+    Rcpp::traits::input_parameter< const arma::vec >::type v(vSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_score_wv_c(x, w, v));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -59,79 +72,40 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// get_score_w_c
-double get_score_w_c(const arma::mat x, const arma::vec w, const arma::vec v);
-RcppExport SEXP _DynamicCorrelation_get_score_w_c(SEXP xSEXP, SEXP wSEXP, SEXP vSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type w(wSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type v(vSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_score_w_c(x, w, v));
-    return rcpp_result_gen;
-END_RCPP
-}
-// get_score_W_c
-arma::vec get_score_W_c(const arma::mat x, const arma::mat W, const arma::mat V);
-RcppExport SEXP _DynamicCorrelation_get_score_W_c(SEXP xSEXP, SEXP WSEXP, SEXP VSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const arma::mat >::type W(WSEXP);
-    Rcpp::traits::input_parameter< const arma::mat >::type V(VSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_score_W_c(x, W, V));
-    return rcpp_result_gen;
-END_RCPP
-}
-// get_degree_c
-double get_degree_c(const arma::mat x, const arma::vec y, const arma::mat Y);
-RcppExport SEXP _DynamicCorrelation_get_degree_c(SEXP xSEXP, SEXP ySEXP, SEXP YSEXP) {
+// get_degree
+double get_degree(const arma::mat x, const arma::vec y, const arma::mat Y);
+RcppExport SEXP _DynamicCorrelation_get_degree(SEXP xSEXP, SEXP ySEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat >::type x(xSEXP);
     Rcpp::traits::input_parameter< const arma::vec >::type y(ySEXP);
     Rcpp::traits::input_parameter< const arma::mat >::type Y(YSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_degree_c(x, y, Y));
+    rcpp_result_gen = Rcpp::wrap(get_degree(x, y, Y));
     return rcpp_result_gen;
 END_RCPP
 }
-// get_degree_w_c
-double get_degree_w_c(const arma::mat x, const arma::mat W, const arma::mat V);
-RcppExport SEXP _DynamicCorrelation_get_degree_w_c(SEXP xSEXP, SEXP WSEXP, SEXP VSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const arma::mat >::type W(WSEXP);
-    Rcpp::traits::input_parameter< const arma::mat >::type V(VSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_degree_w_c(x, W, V));
-    return rcpp_result_gen;
-END_RCPP
-}
-// get_eta_c
-double get_eta_c(const double rho12, const double rho23, const double rho13);
-RcppExport SEXP _DynamicCorrelation_get_eta_c(SEXP rho12SEXP, SEXP rho23SEXP, SEXP rho13SEXP) {
+// get_eta
+double get_eta(const double rho12, const double rho23, const double rho13);
+RcppExport SEXP _DynamicCorrelation_get_eta(SEXP rho12SEXP, SEXP rho23SEXP, SEXP rho13SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const double >::type rho12(rho12SEXP);
     Rcpp::traits::input_parameter< const double >::type rho23(rho23SEXP);
     Rcpp::traits::input_parameter< const double >::type rho13(rho13SEXP);
-    rcpp_result_gen = Rcpp::wrap(get_eta_c(rho12, rho23, rho13));
+    rcpp_result_gen = Rcpp::wrap(get_eta(rho12, rho23, rho13));
     return rcpp_result_gen;
 END_RCPP
 }
-// get_H_c
-arma::mat get_H_c(const arma::mat Sigma);
-RcppExport SEXP _DynamicCorrelation_get_H_c(SEXP SigmaSEXP) {
+// get_H
+arma::mat get_H(const arma::mat Sigma);
+RcppExport SEXP _DynamicCorrelation_get_H(SEXP SigmaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat >::type Sigma(SigmaSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_H_c(Sigma));
+    rcpp_result_gen = Rcpp::wrap(get_H(Sigma));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -191,58 +165,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// small_sample_correction_c
-double small_sample_correction_c(arma::vec x, double C, int k, int p);
-RcppExport SEXP _DynamicCorrelation_small_sample_correction_c(SEXP xSEXP, SEXP CSEXP, SEXP kSEXP, SEXP pSEXP) {
+// cubic_coeff
+arma::vec cubic_coeff(arma::mat x, double C);
+RcppExport SEXP _DynamicCorrelation_cubic_coeff(SEXP xSEXP, SEXP CSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type x(xSEXP);
     Rcpp::traits::input_parameter< double >::type C(CSEXP);
-    Rcpp::traits::input_parameter< int >::type k(kSEXP);
-    Rcpp::traits::input_parameter< int >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(small_sample_correction_c(x, C, k, p));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cubic_correction_c
-double cubic_correction_c(arma::vec x, double C, int k, int p);
-RcppExport SEXP _DynamicCorrelation_cubic_correction_c(SEXP xSEXP, SEXP CSEXP, SEXP kSEXP, SEXP pSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type C(CSEXP);
-    Rcpp::traits::input_parameter< int >::type k(kSEXP);
-    Rcpp::traits::input_parameter< int >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(cubic_correction_c(x, C, k, p));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cubic_coeff_c
-arma::vec cubic_coeff_c(arma::vec A, double C, int k, int p);
-RcppExport SEXP _DynamicCorrelation_cubic_coeff_c(SEXP ASEXP, SEXP CSEXP, SEXP kSEXP, SEXP pSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type A(ASEXP);
-    Rcpp::traits::input_parameter< double >::type C(CSEXP);
-    Rcpp::traits::input_parameter< int >::type k(kSEXP);
-    Rcpp::traits::input_parameter< int >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(cubic_coeff_c(A, C, k, p));
-    return rcpp_result_gen;
-END_RCPP
-}
-// simulate_c
-Rcpp::List simulate_c(arma::vec x, arma::mat Sigma, bool use_Hhat);
-RcppExport SEXP _DynamicCorrelation_simulate_c(SEXP xSEXP, SEXP SigmaSEXP, SEXP use_HhatSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type Sigma(SigmaSEXP);
-    Rcpp::traits::input_parameter< bool >::type use_Hhat(use_HhatSEXP);
-    rcpp_result_gen = Rcpp::wrap(simulate_c(x, Sigma, use_Hhat));
+    rcpp_result_gen = Rcpp::wrap(cubic_coeff(x, C));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -300,22 +231,17 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_DynamicCorrelation_get_grad_c", (DL_FUNC) &_DynamicCorrelation_get_grad_c, 5},
     {"_DynamicCorrelation_const_c", (DL_FUNC) &_DynamicCorrelation_const_c, 2},
-    {"_DynamicCorrelation_get_score_c", (DL_FUNC) &_DynamicCorrelation_get_score_c, 3},
+    {"_DynamicCorrelation_get_score", (DL_FUNC) &_DynamicCorrelation_get_score, 3},
+    {"_DynamicCorrelation_get_score_wv_c", (DL_FUNC) &_DynamicCorrelation_get_score_wv_c, 3},
     {"_DynamicCorrelation_mvrnormArma", (DL_FUNC) &_DynamicCorrelation_mvrnormArma, 3},
-    {"_DynamicCorrelation_get_score_w_c", (DL_FUNC) &_DynamicCorrelation_get_score_w_c, 3},
-    {"_DynamicCorrelation_get_score_W_c", (DL_FUNC) &_DynamicCorrelation_get_score_W_c, 3},
-    {"_DynamicCorrelation_get_degree_c", (DL_FUNC) &_DynamicCorrelation_get_degree_c, 3},
-    {"_DynamicCorrelation_get_degree_w_c", (DL_FUNC) &_DynamicCorrelation_get_degree_w_c, 3},
-    {"_DynamicCorrelation_get_eta_c", (DL_FUNC) &_DynamicCorrelation_get_eta_c, 3},
-    {"_DynamicCorrelation_get_H_c", (DL_FUNC) &_DynamicCorrelation_get_H_c, 1},
+    {"_DynamicCorrelation_get_degree", (DL_FUNC) &_DynamicCorrelation_get_degree, 3},
+    {"_DynamicCorrelation_get_eta", (DL_FUNC) &_DynamicCorrelation_get_eta, 3},
+    {"_DynamicCorrelation_get_H", (DL_FUNC) &_DynamicCorrelation_get_H, 1},
     {"_DynamicCorrelation_get_A1_c", (DL_FUNC) &_DynamicCorrelation_get_A1_c, 5},
     {"_DynamicCorrelation_get_A2_c", (DL_FUNC) &_DynamicCorrelation_get_A2_c, 5},
     {"_DynamicCorrelation_get_A3_c", (DL_FUNC) &_DynamicCorrelation_get_A3_c, 5},
     {"_DynamicCorrelation_get_TT_RR_c", (DL_FUNC) &_DynamicCorrelation_get_TT_RR_c, 1},
-    {"_DynamicCorrelation_small_sample_correction_c", (DL_FUNC) &_DynamicCorrelation_small_sample_correction_c, 4},
-    {"_DynamicCorrelation_cubic_correction_c", (DL_FUNC) &_DynamicCorrelation_cubic_correction_c, 4},
-    {"_DynamicCorrelation_cubic_coeff_c", (DL_FUNC) &_DynamicCorrelation_cubic_coeff_c, 4},
-    {"_DynamicCorrelation_simulate_c", (DL_FUNC) &_DynamicCorrelation_simulate_c, 3},
+    {"_DynamicCorrelation_cubic_coeff", (DL_FUNC) &_DynamicCorrelation_cubic_coeff, 2},
     {"_DynamicCorrelation_shuffle_x_c", (DL_FUNC) &_DynamicCorrelation_shuffle_x_c, 2},
     {"_DynamicCorrelation_store_W_c", (DL_FUNC) &_DynamicCorrelation_store_W_c, 2},
     {"_DynamicCorrelation_store_V_c", (DL_FUNC) &_DynamicCorrelation_store_V_c, 2},

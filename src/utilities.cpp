@@ -40,9 +40,13 @@ double const_c(const double sigw,
 //' @param y1 observation of the first variable
 //' @param y2 observation of the second variable
 //' @param x covariate vector
-//' @param coef coefficients for the cubic function. see cubic_coeff
 //'
 //' @export
+//' @example
+//' x = rnorm(100)
+//' y1 = rnorm(100)
+//' y2 = rnorm(100)
+//' q = get_score(x, y1, y2)
 // [[Rcpp::export]]
 double get_score(const arma::mat x,
             const arma::vec y1,
@@ -66,6 +70,7 @@ double get_score(const arma::mat x,
 //'
 //' @param x Covariate vector
 //' @param w sum of variable1 and variable2
+//' @param v difference of variable1 and variable2
 //' @export
 // [[Rcpp::export]]
 double get_score_wv_c(const arma::mat x,
@@ -325,7 +330,8 @@ arma::mat store_V_c(const arma::vec y,
 //'
 //' @param x Covariate vector
 //' @param B number of permutations
-//' @param W transformed variable matrix
+//' @param W sum of the main variable and each target
+//' @param V difference of the main variable and each target
 //' @export
 // [[Rcpp::export]]
 arma::mat bootstrap_c(const arma::vec x,
