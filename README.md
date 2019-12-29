@@ -17,5 +17,5 @@ install_github("tk382/DynamicCorrelation")
 Please consult the vignette for use-cases and simulated data.
 
 ```
-broseVignettes("DynamicCorrelation"
+broseVignettes("DynamicCorrelation")
 ```
