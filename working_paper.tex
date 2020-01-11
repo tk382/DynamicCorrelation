@@ -1,8 +1,8 @@
-\documentclass[aap, preprint]{imsart}
+\documentclass[aap,authoryear, preprint]{imsart}
 \RequirePackage[OT1]{fontenc}
 \RequirePackage{amsthm,amsmath}
 \RequirePackage{natbib}
-\RequirePackage[colorlinks,citecolor=blue,urlcolor=blue]{hyperref}
+% \RequirePackage[colorlinks,citecolor=blue,urlcolor=blue]{hyperref}
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -18,7 +18,7 @@
 \usepackage{graphicx}
 \usepackage{mathtools}
 \usepackage{newfloat}
-\usepackage{subcaption}
+% \usepackage{subcaption}
 \usepackage{tocloft}
 \usepackage{wrapfig}
 % settings
@@ -52,7 +52,7 @@ Chicago, IL 60637}
 \end{aug}
 
 \begin{abstract}
-In many biological studies on the transcriptome, the correlation of genes might fluctuate with quantitative factors such as genetic ancestry. We propose a method that can model the covariance between two variables to vary against a continuous covariate. For the bivariate case, we propose a score test statistic that is computationally simple and robust to model misspecification. Subsequently, we expand the method to test relationships between one highly connected gene, such as transcription factors, and several other genes to obtain a more global view of the dynamic of the coexpression network. Simulations show that the proposed method has higher statistical power than the alternatives, works under more diverse scenarios, and is computationally much cheaper. We apply this method to African American subjects from GTEx to analyze the dynamic behavior of their gene coexpression against genetic ancestry, and we identify transcription factors whose coexpressions with their target genes change with the genetic ancestry. We believe this method can be applied to a wide array of problems that require covariance modeling.
+In many biological studies on the transcriptome, the correlation of genes might fluctuate with quantitative factors such as genetic ancestry. We propose a method that can model the covariance between two variables to vary against a continuous covariate. For the bivariate case, we propose a score test statistic that is computationally simple and robust to model misspecification of the covariance term $\rho$. Subsequently, we expand the method to test relationships between one highly connected gene, such as transcription factors, and several other genes to obtain a more global view of the dynamic of the coexpression network. Simulations show that the proposed method has higher statistical power than the alternatives, works under more diverse scenarios, and is computationally much cheaper. We apply this method to African American subjects from GTEx to analyze the dynamic behavior of their gene coexpression against genetic ancestry, and we identify transcription factors whose coexpressions with their target genes change with the genetic ancestry. We believe this method can be applied to a wide array of problems that require covariance modeling.
 \end{abstract}
 
 \begin{keyword}
@@ -60,94 +60,31 @@ coexpression; network; heteroskedasticity; score test; GTEx; admixed population
 \end{keyword}
 
 \end{frontmatter}
-% \begin{enumerate}
-%     \item Introduction
-%     \begin{enumerate}
-%         \item Data sets have become more and more complicated, and there's need for covariance modeling for multivariate data. It's an important statistical problem.
-%         \item One example is coexpression network. It's an important biological problem.
-%         \item Literature search 1: Differential Correlation and Liquid association 
-%         \item Literature search 2: Works in heteroskedasticity. It addresses different problem, but similar in flavor that we can potentially take advantage of.
-%         \item Proposed method
-%         \item Paper organization
-%     \end{enumerate}
-%     \item Methods
-%     \begin{enumerate}
-%         \item Framework
-%         \begin{enumerate}
-%             \item Model and Notation
-%             \item Statistical problem (how to model $\Sigma$) and interpretation
-%             \item Reasoning for pair-wise modeling
-%         \end{enumerate}
-%         \item Inference for $K=2$
-%         \begin{enumerate}
-%             \item Reasoning for variable transformation
-%             \item Two possibilities: Likelihood Ratio test vs Score test
-%             \item derivation of score statistic
-%             \item Small sample correction
-%         \end{enumerate}
-%         \item Connection to Liquid Association
-%         \begin{enumerate}
-%             \item Definition of LA
-%             \item Similarity between LA and score test
-%             \item Difference between them and why ours is better
-%         \end{enumerate}
-%         \item Inference for $K>2$
-%         \begin{enumerate}
-%             \item Set-up (global null)
-%             \item Justification for combining test statistics
-%             \item Derivation of the new test statistic
-%             \item When $K$ is greater than $n$: permutation
-%         \end{enumerate}
-%         \item Generalization to Non-unit Variance
-%         \begin{enumerate}
-%             \item When $K=2$
-%             \item When $K>2$
-%         \end{enumerate}
-%     \end{enumerate}
-%     \item Simulation Studies
-%     \begin{enumerate}
-%         \item performance comparison score vs LR vs LA under Fisher model and under quadratic model
-%         \item \textit{one example under null and alternative hypothesis for $K>2$}
-%     \end{enumerate}
-%     \item Application to GTEx Data
-%     \begin{enumerate}
-%         \item Data
-%         \item Analysis (Transcription factors against their targets)
-%         \item Results (One with the lowest $p$-values)
-%     \end{enumerate}
-%     \item Discussion
-%     \begin{enumerate}
-%         \item \textit{Summary}
-%         \item \textit{Limitations: (1) Bivariate normal, (2) For cases $K>n>2$, the burden of permutation test and difficult inference (3) Modeling matrix instead of covariance}
-%         \item \textit{Applications outside coexpression network (social network, etc.)}
-%     \end{enumerate}
-% \end{enumerate}
-
 \section{Introduction}
 \subsection*{}
 Gene coexpression, the covariance structure of gene expression data, shows how genes are functionally connected and provides insights into the design of the transcriptional regulatory system. Ideally, such a complicated biological system can be fully understood through longitudinal observations in multiple and diverse cell types that capture the dynamics of the system. In reality, however, such comprehensive measurements are often unavailable or too expensive, and the expression dynamics must be captured instead through cross-sectional or tissue-specific data sets. In such cases, investigating the dependence structure can be useful. The dependence structure can be especially valuable for characterizing how few key genes are connected to the rest of the transcriptome. For example, we can focus on one transcription factor --- genes that help turn transcription of genes on and off --- and study how it is connected to its target genes. To further investigate this problem, we define ``local connectivity" of a transcription factor as its overall connectivity to its target genes.\\
 
-Consider this biological problem: how does ``local connectivity" vary across various phenotypic conditions?  Past studies have investigated similar problems, such as how subjects in distinct disease groups show distinct coexpression patterns, contributing to a better understanding of disease at a molecular level \cite{de2010differential}. Here, we focus on understanding how coexpression changes with quantitative traits, not discrete conditions such as disease status. As an example of a quantitative trait, we use genetic ancestry. Ancestry is known to play a critical role in other molecular phenotypes including DNA methylation and gene expressions \cite{galanter2017differential, price2008effects}, and so we believe it has an important role in gene dynamics and gene networks as well. In this paper, we study how the local connectivity of transcription factor genes changes with ancestry. Specifically, we study the gene coexpression of African American subjects to identify candidate transcription factors whose effects on their targets vary with the proportion of African ancestry in their genome. This analysis will lead to a better comprehension of how genes are differentially regulated in distinct populations. \\
+Consider this biological problem: how does local connectivity vary across various phenotypic conditions?  Past studies have investigated similar problems, such as how subjects in distinct disease groups show distinct coexpression patterns, contributing to a better understanding of disease at a molecular level (\cite{de2010differential}). Here, we focus on understanding how coexpression changes with quantitative traits, not discrete conditions such as disease status, and hence we study the dynamic nature of coexpression. As an example of a quantitative trait, we use genetic ancestry. Ancestry is known to play a critical role in other molecular phenotypes including DNA methylation and gene expressions (\cite{galanter2017differential, price2008effects}), and so we believe it has an important role in gene dynamics and gene networks as well. In this paper, we study how the local connectivity of transcription factor genes changes with ancestry. Specifically, we study the gene coexpression of African American subjects to identify candidate transcription factors whose effects on their targets vary with the proportion of African ancestry in their genome. This analysis will lead to a better comprehension of how genes are differentially regulated in distinct populations. \\
 
-The above biological problem can be investigated using multivariate statistical models of gene expression with a covariance structure (characterizing connectivity) that depends on one or more features (such as ancestry). This paper focuses on testing the contribution of ancestry on the covariance matrix, and we start from its simplest form by studying the expression levels of two genes. We construct a statistical model that can explain how their correlation varies against genetic ancestry and use that to test if the correlation is constant across conditions. We generalize it to the local connectivity of a transcription factor by meta-analyzing the pairwise statistics. Note that covariance modeling for multivariate data is important in many applications outside the field of genetics. Variance modeling has been widely studied in the context of heteroskedasticity \cite{breusch1979simple, glejser1969new, white1980heteroskedasticity}, and correlation modeling under discrete conditions has been studied in the context of the differential network \cite{ideker2012differential}, but dynamic correlation modeling has been less explored. \\
+The above biological problem can be investigated using multivariate statistical models of gene expression with a covariance structure (characterizing connectivity) that depends on one or more features (such as ancestry). This paper focuses on testing the contribution of ancestry on the covariance matrix, and we start from its simplest form by studying the expression levels of two genes. We construct a statistical model that can explain how their correlation varies against genetic ancestry and use that to test if the correlation is constant across conditions. We generalize it to the local connectivity of a transcription factor by meta-analyzing the pairwise statistics. Note that covariance modeling for multivariate data is important in many applications outside the field of genetics. Variance modeling has been widely studied in the context of heteroskedasticity (\cite{breusch1979simple, glejser1969new, white1980heteroskedasticity}), and correlation modeling under discrete conditions has been studied in the context of the differential network (\cite{ideker2012differential}), but dynamic correlation modeling has been less explored. \\
 
-Li (2002) addresses the most similar scientific problem to ours \cite{li2002genome, li2004system}, using the term ``liquid association" (LA) to conceptualize the internal evolution of the coexpression pattern for a pair of genes. They analyze the coexpression that changes across different unobserved cellular states that are represented by the expression level of another gene as a proxy. Other studies have built on the liquid association to better identify cell states that affect coexpression \cite{yan2017detecting, yu2018new}, most focusing on expanding the test to genome-scale. However, methods based on liquid association have some limitations. First, it restricts the covariate to be a 1-dimensional vector, and cannot be generalized to more realistic scenarios. Second, it treats the covariate as a random variable that follows a normal distribution, which genetic ancestry does not, so it cannot be used for our application. Third, it only tests the linear relationship between the covariate and the coexpression. Lastly, the corresponding test statistic does not have a closed-form null distribution and requires a permutation test, leading to computational inefficiency. \\
+\cite{li2002genome} and \cite{li2004system} addresses the most similar scientific problem to ours, using the term ``liquid association" (LA) to conceptualize the internal evolution of the coexpression pattern for a pair of genes. They analyze the coexpression that changes across different unobserved cellular states that are represented by the expression level of another gene as a proxy. Other studies have built on the liquid association to better identify cell states that affect coexpression (\cite{yan2017detecting, yu2018new}), most focusing on expanding the test to genome-scale. However, methods based on liquid association have some limitations. First, it restricts the covariate to be a 1-dimensional vector, and cannot be generalized to more realistic scenarios. Second, it treats the covariate as a random variable that follows a normal distribution, which genetic ancestry does not, so it cannot be used for our application. Third, it only tests the linear relationship between the covariate and the coexpression. Lastly, the corresponding test statistic does not have a closed-form null distribution and requires a permutation test, leading to computational inefficiency. \\
 
-We propose a methodology for the continuously-varying covariance problem. For a bivariate normal distribution, we apply a simple variable transformation to induce independence, effectively changing the multivariate covariance modeling problem to a univariate variance modeling problem. We then apply a traditional score test for heteroskedasticity \cite{breusch1979simple} where the null hypothesis is that the coexpression does not vary with the covariate. This method is generalizable to non-normal, multivariate covariates, and it is also applicable to a non-linear relationship between the variance and the covariate. Moreover, the score test statistic asymptotically follows a chi-squared distribution, and hence it is easily expandable to a large number of tests without excessive computational burden. Subsequently, we tackle the local connectivity problem by expanding the scope of the problem from the relationship of two genes to the relationships between one gene and multiple genes by combining the test statistics. When the number of genes in the local cluster is smaller than the sample size, the desired statistical properties apply to the new combined test statistic as well. \\
+We propose a methodology for the continuously-varying covariance problem. For a bivariate normal distribution, we apply a simple variable transformation to induce independence, effectively changing the multivariate covariance modeling problem to a univariate variance modeling problem. We then apply a traditional score test for heteroskedasticity (\cite{breusch1979simple}) where the null hypothesis is that the coexpression does not vary with the covariate. This method is generalizable to non-normal, multivariate covariates, and it is also applicable to a non-linear relationship between the variance and the covariate. Moreover, the score test statistic asymptotically follows a chi-squared distribution, and hence it is easily expandable to a large number of tests without excessive computational burden. Subsequently, we tackle the local connectivity problem by expanding the scope of the problem from the relationship of two genes to the relationships between one gene and multiple genes by combining the test statistics. When the number of genes in the local cluster is smaller than the sample size, the desired statistical properties apply to the new combined test statistic as well. \\
 
 The rest of the paper is organized as follows. First, we lay out the framework for the score test that investigates whether the covariance between bivariate normal variables varies against a continuous covariate $X$. Then we propose a way to combine the pair-wise test statistics for one gene and test the global null that the local connectivity of one variable does not change with genetic ancestry. In the simulation section, we show that the proposed method has distinct advantages compared to alternatives such as the likelihood ratio test or liquid association. Finally, we share our real data analysis results using GTEx data for African Americans' transcriptome and genome. We end with a discussion about limitations of the method, possible future directions, and potential applications to fields outside genetics.
 
 
 \section{Methods}
 \subsection{Test for connectivity between two genes \label{sec:framework2}}
-Consider 2-dimensional data for $N$ subjects $\bm{y}_i = \mathbb{R}^2$, $i = 1, 2, \cdots, N$ independently following the bivariate normal distribution. The $P$-dimensional covariate matrix $X \in \mathbb{R}^{N \times P} = \{x_{ip}\}_{i=1,p=1}^{N,P}$ is assumed full-rank with $P < N$.
+Consider 2-dimensional data for $N$ subjects $\bm{y}_i \in \mathbb{R}^2$, $i = 1, 2, \cdots, N$ independently following the bivariate normal distribution. The $P$-dimensional covariate matrix $X \in \mathbb{R}^{N \times P} = \{x_{ip}\}_{i=1,p=1}^{N,P}$ is assumed full-rank with $P < N$.
 \begin{equation}
 \begin{multlined}
     \begin{bmatrix} y_{i1} \\ y_{i2} \end{bmatrix} = 
     \begin{bmatrix} b_{1} \\ b_{2} \end{bmatrix} + 
     \begin{bmatrix} \bm{x}_i^T \bm{\beta}_1 \\ \bm{x}_i^T \bm{\beta}_2 \end{bmatrix} + 
     \begin{bmatrix} {u_{i1}} \\ {u_{i2}} \end{bmatrix}\\
-    \begin{bmatrix} {u_{i2}} \\ u_{i2} \end{bmatrix} 
+    \begin{bmatrix} {u_{i1}} \\ u_{i2} \end{bmatrix} 
     \sim \mathcal{N}\left(
         \begin{bmatrix} 0 \\ 0 \end{bmatrix}, 
         \begin{bmatrix} \rho_{11} & \rho_{12}(\bm{x}_i) \\ 
@@ -156,35 +93,19 @@ Consider 2-dimensional data for $N$ subjects $\bm{y}_i = \mathbb{R}^2$, $i = 1, 
     \end{multlined}
     \label{eq:framework_2genes}
 \end{equation}
-$\bm{\beta}_1$ and $\bm{\beta}_2$ are coefficients with length $P$  for the mean term. $\rho_{11}$ and $\rho_{22}$ are fixed scalars but $\rho_{12}$ varies with the covariate. We define $\bm{\alpha} \in \mathbb{R}^{P}$ as the linear coefficients and model $\rho_{12}$ as follows.
+$\bm{\beta}_1$ and $\bm{\beta}_2$ are coefficients with length $P$  for the mean term. $\rho_{11}$ and $\rho_{22}$ are fixed scalars but $\rho_{12}$ varies with the covariate. We define $\bm{\alpha} \in \mathbb{R}^{P}$ and a scalar $\alpha_0$ as the linear coefficients to model $\rho_{12}$ as follows.
 \begin{equation}
-    \rho_{12}(\bm{x}_i, \bm{\alpha}) = \rho_{12}(\bm{x}_i^T\bm{\alpha} + \alpha_0) \label{eq:rho}
+    \rho_{12}(\bm{x}_i) = \rho_{12}(\bm{x}_i^T\bm{\alpha} + \alpha_0) \label{eq:rho}
 \end{equation}
-Our parameter of interest is $\bm{\alpha}$ while others --- $\alpha_0$, $\bm{b}$, $\bm{\beta}$, $\rho_{11}$, $\rho_{22}$ --- are nuisance parameters. Here, we develop a method to test the following null hypothesis.
+Our parameter of interest is $\bm{\alpha}$ while all others --- $\alpha_0$, $\bm{b}$, $\bm{\beta}$, $\rho_{11}$, $\rho_{22}$ --- are nuisance parameters. Here, we develop a method to test the following null hypothesis.
 \begin{equation}
-    \bm{\alpha} = \bm{0}
+    H_0: \bm{\alpha} = \bm{0}
     \label{eq:null}
 \end{equation}
-Under the null hypothesis, $\rho_{12}(\bm{x}_i, \bm{\alpha}) = \rho_{12}(\alpha_0)$ is a constant. We believe the linearity and additivity assumptions in (\ref{eq:rho}) are standard for the incipient stage of the analysis, and since $\rho$ can take any non-linear form, (\ref{eq:rho}) still is a flexible framework. \\
+Under the null hypothesis, $\rho_{12}(\bm{x}_i, \bm{\alpha}) = \rho_{12}(\alpha_0)$ is a constant. We believe the linearity and additivity assumptions in (\ref{eq:rho}) are standard, and since $\rho_{12}$ can take any non-linear form, (\ref{eq:rho}) still is a flexible framework. \\
 
-Above model is close to a multivariate regression model of $\bm{y}_i$ against covariate $\bm{x}_i$ with intercept $\bm{b}_0$, slope $\begin{bmatrix} \bm{\beta}_1 & \bm{\beta}_2 \end{bmatrix}$, and error term $\bm{u}_i$ but is different in that its error variance depends on the covariate $\bm{x}_i$. The function $\rho_{12}$ represents a specific but unknown form of heteroskedasticity between the two variables $1$ and $2$. We additionally assume that the diagonal entries of $\Sigma$ do not depend on $\bm{x}_i$. In the context of gene coexpression of African Americans, $\bm{y}_i$ is gene expression level of an African American individual $i$ at two selected genes. $\bm{x}_i$ is a $P$-dimensional covariate matrix for individual $i$ that holds information about genetic ancestry. It can be a scalar that represents the proportion of African ancestry in the genome, a vector of the first few principal components of the genotypes, or a vector of local ancestry at multiple loci. In the application section (\ref{sec:applications}), we focus on scalar $\bm{x}_i$ for straightforward interpretability. \\
+The above model is close to a multivariate regression model of $\bm{y}_i$ against the covariate $\bm{x}_i$ with intercept $\bm{b}_0$, slope $\begin{bmatrix} \bm{\beta}_1 & \bm{\beta}_2 \end{bmatrix}$, and error term $\bm{u}_i$. The difference is that its error variance depends on the covariate $\bm{x}_i$. The function $\rho_{12}$ represents an unknown form of heteroskedasticity between the two variables $1$ and $2$. In the context of gene coexpression of African Americans, $\bm{y}_i$ is gene expression level of an African American individual $i$ at two selected genes. $\bm{x}_i$ is a $P$-dimensional covariate matrix for individual $i$ that holds information about genetic ancestry. It can be a scalar that represents the proportion of African ancestry in the genome, a vector of the first few principal components of the genotypes, or a vector of local ancestry at multiple loci. In the application example in section \ref{sec:applications}, we focus on scalar $\bm{x}_i$ for straightforward interpretability. \\
 
-% Although we can work directly with bivariate normal likelihood from (\ref{eq:framework_2genes}), we propose a variable transformation to make the likelihood much simpler without losing any information. 
-
-
-% \begin{align} \begin{split}
-% \hspace{-5mm}& \begin{bmatrix} w_{i} \\ v_{i} \end{bmatrix} = 
-% \begin{bmatrix} \frac{y_{i1}}{\sqrt{\rho_{11}}} + \frac{y_{i2}}{\sqrt{\rho_{22}}} \\ \frac{y_{i1}}{\sqrt{\rho_{11}}} - \frac{y_{i2}}{\sqrt{\rho_{22}}} \end{bmatrix} = \\
-% & \hspace{20mm} 
-%  \begin{bmatrix}
-%   \frac{{b}_1}{\sqrt{\rho_{11}}} + \frac{{b}_2}{\sqrt{\rho_{22}}}\\
-%   \frac{{b}_1}{\sqrt{\rho_{11}}} - \frac{{b}_2}{\sqrt{\rho_{22}}}
-%  \end{bmatrix} + 
-%  \bm{x}_i^T \begin{bmatrix} \frac{\bm{\beta}_1}{\sqrt{\rho_{11}}} + \frac{\bm{\beta}_2}{\sqrt{\rho_{22}}} \\ \frac{\bm{\beta}_1}{\sqrt{\rho_{11}}} - \frac{\bm{\beta}_2}{\sqrt{\rho_{22}}} \end{bmatrix} + \begin{bmatrix} u_{wi} \\ u_{vi}\end{bmatrix}\\
-% &  \begin{bmatrix} u_{wi} \\ u_{vi}\end{bmatrix} \sim  \mathcal{N} \left(\bm{0}, \begin{bmatrix} 2 + \frac{2\rho_{12}(\bm{x}_i^T, \bm{\alpha})}{\sqrt{\rho_{11}\rho_{22}}} & 0 \\ 0 & 2 - \frac{2\rho_{12}(\bm{x}_i, \bm{\alpha})}{\sqrt{\rho_{11}\rho_{22}}} \end{bmatrix} \right)
-%  \end{split}
-%   \label{eq:transformed_2genes}
-%   \end{align}
 With some mathematical tweaks, we can write the likelihood of (\ref{eq:framework_2genes}) as follows
 \begin{equation}
 \begin{multlined}
@@ -198,19 +119,19 @@ with the variables defined as following.
 \begin{align*}
 w_i = \frac{y_{i1}}{\sqrt{\rho_{11}}} + \frac{y_{i2}}{\sqrt{\rho_{22}}}, 
 \hspace{6mm} &
-v_i = \frac{y_{i1}}{\sqrt{\rho_{11}}} - \frac{y_{i2}}{\sqrt{\rho_{22}}}\\
+v_i = \frac{y_{i1}}{\sqrt{\rho_{11}}} - \frac{y_{i2}}{\sqrt{\rho_{22}}},\\
 \sigma_{wi}^2 = 2 + \frac{2\rho_{12}(\bm{x}_i, \bm{\alpha})}{\sqrt{\rho_{11}\rho_{22}}}, \hspace{6mm}&
-\sigma_{vi}^2 = 2 - \frac{2\rho_{12}(\bm{x}_i, \bm{\alpha})}{\sqrt{\rho_{11}\rho_{22}}}
+\sigma_{vi}^2 = 2 - \frac{2\rho_{12}(\bm{x}_i, \bm{\alpha})}{\sqrt{\rho_{11}\rho_{22}}},\\
+\mu_{wi} = \frac{{b}_1}{\sqrt{\rho_{11}}} + \frac{{b}_2}{\sqrt{\rho_{22}}} + &\bm{x}_i^T \left(\frac{\bm{\beta}_1}{\sqrt{\rho_{11}}} + \frac{\bm{\beta}_2}{\sqrt{\rho_{22}}}\right),\\
+\mu_{vi} = \frac{{b}_1}{\sqrt{\rho_{11}}} - \frac{{b}_2}{\sqrt{\rho_{22}}} + &\bm{x}_i^T \left(\frac{\bm{\beta}_1}{\sqrt{\rho_{11}}} - \frac{\bm{\beta}_2}{\sqrt{\rho_{22}}}\right)
 \end{align*}
-$$\mu_{wi} = \frac{{b}_1}{\sqrt{\rho_{11}}} + \frac{{b}_2}{\sqrt{\rho_{22}}} + \bm{x}_i^T \left(\frac{\bm{\beta}_1}{\sqrt{\rho_{11}}} + \frac{\bm{\beta}_2}{\sqrt{\rho_{22}}}\right)$$
-$$\mu_{vi} = \frac{{b}_1}{\sqrt{\rho_{11}}} - \frac{{b}_2}{\sqrt{\rho_{22}}} + \bm{x}_i^T \left(\frac{\bm{\beta}_1}{\sqrt{\rho_{11}}} - \frac{\bm{\beta}_2}{\sqrt{\rho_{22}}}\right)$$
-The intuition to reach (\ref{eq:likelihood_2genes}) is to think of $w_i$ and $v_i$ as the normalized sum and the difference of two variables. This way, the likelihood is expressed as the product of two univariate likelihood instead of more complicated bivariate likelihood. Therefore, now the covariance problem is effectively transformed to modeling the variance problem, and we can apply the results from literature on univariate heteroskedasticity. Given the likelihood (\ref{eq:likelihood_2genes}), we have two well-known tools to test the null hypothesis (\ref{eq:null}): likelihood ratio test and Rao's score test \cite{breusch1979simple}. \\
+The intuition to reach (\ref{eq:likelihood_2genes}) is to think of $w_i$ and $v_i$ as the normalized sum and difference of the two variables. This way, the likelihood is expressed as the product of two independent univariate likelihood instead of the more complicated bivariate likelihood. Now the covariance problem is effectively transformed to modeling the variance problem, and we can apply the results from literature on univariate heteroskedasticity. Given the likelihood (\ref{eq:likelihood_2genes}), we have two well-known tools to test the null hypothesis (\ref{eq:null}): likelihood ratio test and Rao's score test (\cite{breusch1979simple}). \\
 
-One one hand, likelihood ratio test requires the full specification of the function $\rho$ to estimate the maximum likelihood estimate (MLE) of $\bm{\alpha}$ both under the null hypothesis and under the alternative hypothesis. One straightforward function for $\rho_{12}$ is any kind of sigmoid function bounded to $(-\sqrt{\rho_{11}\rho_{22}}$, $\sqrt{\rho_{11}\rho_{22}})$ such as logistic function, hyperbolic tangent function, or any cumulative distribution supported on the whole real line. For the input of $\rho$, we can use simple linear form of $\bm{x}_i^T\bm{\alpha}$, or we can also allow non-linearity by using higher order polynomial or even generalized additive models. There are two problems with the likelihood ratio test. One, as mentioned in the previous section, we would like to impose as few assumptions on the specific form of heteroskedasticity as possible. If $\rho$ is highly mis-specified, we sacrifice a lot of statistical power. Two, most of the reasonable assumptions of $\rho$, such as the sigmoid functions mentioned above, do not lead to a closed form MLE of $\bm{\alpha}$ under the alternative hypothesis. It would require us to numerically optimize the likelihood, leading to computational inefficiency, especially when the test space is large as in our application of gene coexpression. \\
+On one hand, likelihood ratio test requires the full specification of the function $\rho$ to estimate the maximum likelihood estimate (MLE) of $\bm{\alpha}$ both under the null hypothesis and under the alternative hypothesis. One straightforward function for $\rho_{12}$ is any kind of sigmoid function bound to $(-\sqrt{\rho_{11}\rho_{22}}$, $\sqrt{\rho_{11}\rho_{22}})$ such as logistic function, hyperbolic tangent function, or any cumulative distribution supported on the whole real line. For the input of $\rho$, we can use simple linear form of $\bm{x}_i^T\bm{\alpha}$, or we can also allow non-linearity by using higher order polynomial or even generalized additive models. There are two problems with the likelihood ratio test. One, as mentioned in the previous section, we would like to impose as few assumptions on the specific form of heteroskedasticity as possible. If $\rho$ is highly mis-specified, we sacrifice a lot of statistical power. Two, most of the reasonable assumptions of $\rho$, such as the sigmoid functions mentioned above, do not lead to a closed form MLE of $\bm{\alpha}$ under the alternative hypothesis. It would require us to numerically optimize the likelihood, leading to computational inefficiency, especially when the test space is large as in our application of gene coexpression. \\
 
-On the other hand, Rao's score test, unlike the likelihood ratio test, only requires the MLE of $\bm{\alpha}$ under the null hypothesis \cite{rao1973linear}. Moreover, under our linear and additive model ($\rho(\bm{x}_i) = \rho(\bm{x}_i^T\bm{\alpha})$), the test statistic does not depend on the form of $\rho$ while maintaining its asymptotic property as long as $\rho_{12}$ is twice differentiable. In order to test (\ref{eq:null}), we expand the result from Breusch and Pagan (1979) to derive the test statistic \cite{breusch1979simple}.\\ 
+On the other hand, Rao's score test, unlike the likelihood ratio test, only requires the MLE of $\bm{\alpha}$ under the null hypothesis (\cite{rao1973linear}). Moreover, under our linear and additive model ($\rho_{12}(\bm{x}_i) = \rho_{12}(\bm{x}_i^T\bm{\alpha})$), the test statistic does not depend on the form of $\rho_{12}$ while maintaining its asymptotic property as long as $\rho_{12}$ is twice differentiable. In order to test (\ref{eq:null}), we expand the result from Breusch and Pagan (1979) to derive the test statistic (\cite{breusch1979simple}).\\ 
 
-The score test allows us to replace all the nuisance parameters with the MLEs under the null hypothesis. We can therefore replace $\alpha_0, \bm{\beta}$, $\bm{b}$, $\rho_{11}$, and $\rho_{22}$ with their respective MLEs that result from ordinary least squares linear regression. The first derivative of the likelihood evaluated at $\bm{\alpha}=\bm{0}, \alpha_0 = \hat{\alpha}_0, \bm{\beta} = \bm{\hat{\beta}}$, $\bm{b} = \bm{\hat{b}}$, $\rho_{11} = \hat{\rho}_{11}$, and $\rho_{22} = \hat{\rho}_{22}$ is
+The score test allows us to replace all the nuisance parameters with the MLEs under the null hypothesis. We can therefore replace $\alpha_0, \bm{\beta}$, $\bm{b}$, $\rho_{11}$, and $\rho_{22}$ with their respective MLEs that result from ordinary least squares linear regression. The first derivative of the likelihood evaluated at $\bm{\alpha}=\bm{0}, \alpha_0 = \hat{\alpha}_0, \bm{\beta} = \bm{\hat{\beta}}$, $\bm{b} = \bm{\hat{b}}$, $\rho_{11} = \hat{\rho}_{11}$, and $\rho_{22} = \hat{\rho}_{22}$ is as follows. We also define $\hat{u}_{wi} = \frac{\hat{u}_{i1}}{\sqrt{\hat{\rho}_{11}}} +  \frac{\hat{u}_{i2}}{\sqrt{\hat{\rho}_{22}}}$ and $\hat{u}_{vi} = \frac{\hat{u}_{i1}}{\sqrt{\hat{\rho}_{11}}} -  \frac{\hat{u}_{i2}}{\sqrt{\hat{\rho}_{22}}}$ where $\hat{u}_{i1}$ and $\hat{u}_{i2}$ are the OLS residuals from (\ref{eq:framework_2genes}).
 \begin{equation}
 \begin{multlined}
 \bm{\tilde{d}}_{\alpha} = \frac{\partial \ell(\bm{\alpha}, \bm{b}_0, \bm{\beta})} {\partial \bm{\alpha}}\mid_{\bm{\alpha}=\bm{0}, \alpha_0 = \hat{\alpha}_0, \bm{\beta} = \bm{\hat{\beta}}, \bm{b} = \bm{\hat{b}}, \rho_{11} = \hat{\rho}_{11}, \rho_{22} = \hat{\rho}_{22}} =\\
@@ -223,7 +144,7 @@ The score test allows us to replace all the nuisance parameters with the MLEs un
 \end{multlined}
 \label{first_derivative}
 \end{equation}
-where $\hat{u}_{wi} = \frac{\hat{u}_{i1}}{\sqrt{\hat{\rho}_{11}}} +  \frac{\hat{u}_{i2}}{\sqrt{\hat{\rho}_{22}}}$ and $\hat{u}_{vi} = \frac{\hat{u}_{i1}}{\sqrt{\hat{\rho}_{11}}} -  \frac{\hat{u}_{i2}}{\sqrt{\hat{\rho}_{22}}}$, and the error variance estimates are $\hat{\sigma}_w^2 = \sum_{i=1}^{N} \hat{u}_{wi}^2/N$ and $\hat{\sigma}_{vi}^2 = \sum_{i=1}^{N}\hat{u}_v^2/N$. The derivation is in the appendix. The Fisher information for $\bm{\alpha}$ is
+where the error variance estimates are $\hat{\sigma}_w^2 = \sum_{i=1}^{N} \hat{u}_{wi}^2/N$ and $\hat{\sigma}_{vi}^2 = \sum_{i=1}^{N}\hat{u}_v^2/N$. The derivation is in the appendix. The Fisher information for $\bm{\alpha}$ is
 \begin{equation}
 \begin{multlined}
         \tilde{\mathcal{I}}_{\bm{\alpha}\bm{\alpha}^T} = \mathcal{I}_{\bm{\alpha}\bm{\alpha}^T}\mid_{
@@ -262,99 +183,12 @@ $\tilde{\mathcal{I}}_{\bm{\alpha}\bm{b}^T}$ --- are $\bm{0}$ when the covariates
     \end{multlined}
     \label{eq:q}
 \end{equation}
-where the unknown function $\rho$ has been canceled out. Every component of the test statistic is easily acquired from the data, and the computational burden is low. Most importantly, it is flexible as it allows any form of heteroskedasticity $\rho$. Under this setting, Breusch and Pagan (1979)  proves that $q$ asymptotically follows $\chi_{P}^2$ \cite{breusch1979simple}.
+where the unknown function $\rho_{12}$ has been canceled out. Every component of the test statistic is easily acquired from the data, and the computational burden is low. Just as importantly, it is flexible as it allows any form of heteroskedasticity $\rho$. Under this setting, Breusch and Pagan (1979)  proves that $q$ asymptotically follows $\chi_{P}^2$ (\cite{breusch1979simple}).
 \begin{prop}
 Consider the model in (\ref{eq:framework_2genes}). If all the covariates are centered, $\sum_{i=1}^{N} x_{ip} = 0$ for $p = 1, \cdots, P$, and the non-diagonal term follows the function $\rho_{12}$ as defined in (\ref{eq:rho}), the statistic in (\ref{eq:q}) follows $\chi_P^2$ under the null hypothesis (\ref{eq:null}). 
 \label{theorem:q}
 \end{prop}
-However, even though the introduced test statistic has convenient asymptotic properties, the inference might not be correct for problems with finite samples. The error is in the order of $N^{-1}$ \cite{harris1985asymptotic}, and many Monte Carlo experiments show that the test rejects the null hypothesis less frequently than indicated by its nominal size \cite{ godfrey1978testing, griffiths1986monte,honda1988size} . In response, corrections have been suggested \cite{cribari2001monotonic, harris1985asymptotic, honda1988size}, and we apply Honda's method to ensure the asymptotic properties even under the samll sample size \cite{honda1988size}. The details of the small-sample correction as well as the derivation of the test statistic, are shared in the Appendix.\\
-
-%  In practice, we can scale each column of the data matrix $Y$ by its maximum likelihood estimate of variance as the first step of the analysis.
-% $$\tilde{Y} = \begin{bmatrix} \tilde{\bm{y}}_{\cdot 1}, \cdots, \tilde{\bm{y}}_{\cdot K} \end{bmatrix}$$
-% $$\tilde{\bm{y}}_{\cdot k} = \frac{\bm{y}_{\cdot k}}{\sqrt{\sum_{i=1}^{N} y_{ik}^2/N}}$$
-
-%  Replacing the data matrix $Y$ with its scaled version $\tilde{Y}$, all the testing and inference procedures introduced in the previous sections remain the same.
-
-% \subsection{Framework}
-% We assume the data $\bm{y_i} \in \mathbb{R}^{K}$, $i=1, 2, \cdots, N$ are independent, and we define the data matrix $Y = \{y_{ik}\}_{i=1, k=1}^{N, K} \in \mathbb{R}^{N \times K}$. The covariate matrix $X \in \mathbb{R}^{N \times P} = \{x_{ip}\}_{i=1, p=1}^{N, P}$ is assumed to be full-rank with $P < N$. We assume $\bm{y_i}$ independently follow $K$-variate normal distribution as follows,
-
-% \begin{equation}
-% \bm{y_i} = \bm{b}_0 + \bm{x}_i^TB + \bm{u_i}, \bm{u_i} \sim \mathcal{N}_K(\bm{0}, \Sigma(\bm{x}_i^T\bm{\alpha}))
-% \label{eq_framework}
-% \end{equation}
-% $$\Sigma (\bm{x}_i) = \{\rho_{kl}(\bm{x}_i^T\bm{\alpha})\}_{k, l = 1}^K$$
-
-%  where $\rho_{kl}$ is constant when $k = l$ while varies across $\bm{x}_i$ only when $k \neq l$. \\
-
-%  The above model is close to a multivariate regression model of $\bm{y_i}$ with respect to the covariate $\bm{x}_i$ with intercept $\bm{b}_0$, slope $B$, and error term $\bm{u_{i}}$. However, it differs from the classical regression model because its error variance $\Sigma(\bm{x}_i, \bm{\alpha})$ depends on the covariate $\bm{x}_i$ through some parameters $\bm{\alpha}_{k\ell}$. The function $\rho_{k\ell}$ represents the specific form of heteroskedasticity between the two variables $k$ and $\ell$, and possible choices for this function are further discussed in section \ref{pairwise}. \\
-
-%  In the context of gene-coexpression network of African Americans, the data matrix $Y$ is the gene expression level matrix for $N$ individuals at $K$ genes, and therefore, we expect this to be a high dimensional problem with $K>N$. The covariate $\bm{x}_i$ holds genetic ancestry information of individual $i$. It can be a scalar that represents the proportion of African ancestry in the genome, a vector of the first few principal components of the genotypes, or a vector of local ancestry at multiple loci. In the application section \ref{applications}, we focus on scalar $\bm{x}_i$ for straightforward interpretability. \\
-
-%  We aim to model $\Sigma$ to see how the relationship among $K$ variables changes across the different $\bm{x}_i$. and therefore we assume that the diagonal entries of $\Sigma$ are fixed and do not depend on $\bm{x}_i$. This may or may not be appropriate depending on the contexts, but it is empirically justified for our example data set of GTEx gene expression level matrix and genetic matrix.  \\
-
-
-
-% \subsection{Inference for $K = 2$} \label{pairwise}
-% Here, we focus on a simple case of $K=2$. For the next two sections, we assume that the variance matrix has 1 on all the diagonals for mathematical simplicity. This can be a proper choice for certain applications. For example, the gene expression level has already been quantile normalized as a pre-processing step. In section \ref{unscaled}, we lift the unit variance assumption and present the method for the general case.\\
-
-% We can re-write (\ref{eq_framework}) for $K=2$ as below,
-
-% \begin{equation}
-% \begin{multlined}
-%     \begin{bmatrix} y_{i1} \\ y_{i2} \end{bmatrix} = 
-%     \begin{bmatrix} b_{01} \\ b_{02} \end{bmatrix} + 
-%     \begin{bmatrix} \bm{x_i^T \beta_1} \\ \bm{x_i^T \beta_2} \end{bmatrix} + 
-%     \begin{bmatrix} {u_{i1}} \\ {u_{i2}} \end{bmatrix}\\
-%     \begin{bmatrix} {u_{i2}} \\ u_{i2} \end{bmatrix} \sim \mathcal{N}\left(
-%         \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \begin{bmatrix} 1 & \rho_{12}(\bm{x}_i, \bm{\alpha_{12}}) \\ \rho_{12}(\bm{x}_i, \bm{\alpha_{12}}) & 1 \end{bmatrix}
-%     \right)
-%     \label{kis2}
-%     \end{multlined}
-% \end{equation}
-%  where $\bm{\beta}_1$ and $\bm{\beta}_2$ are the first and second columns of $B$ respectively. The null hypothesis is 
-% \begin{equation}
-% \rho_{12}(\bm{x}_i, \bm{\alpha_{12}})= \bar{\rho}_{12}.\label{null1}
-% \end{equation}
-% In other words, the covariance between variables $1$ and $2$ do not depend on $\bm{x}_i$ and is a constant value $\bar{\rho}_{12}$. Both the function $\rho$ and the parameters $\bm{\alpha}$ depend on the variable pair $1$ and $2$, and for the rest of the section, we drop the subscripts $12$ for notational convenience. \\
-
-%  The likelihood of (\ref{kis2}) is
-% \begin{equation}
-% \begin{multlined}
-%     \ell(\bm{\alpha},\bm{b}_0,\bm{\beta}) = \sum_{i=1}^{N} \bigg(
-%     -log(2\pi) - \frac{\sqrt{1-\rho^2(\bm{x}_i, \bm{\alpha})}}{2}\\
-%     \shoveleft[3cm] - \frac{(y_{i1}-\mu_{y_1})^2 + (y_{i2}-\mu_{y_2})^2 - 2\rho(\bm{x}_i, \bm{\alpha})(y_{i1}-\mu_{y_1})(y_{i2}-\mu_{y_2})}{2(1-\rho^2(\bm{x}_i, \bm{\alpha}))} \bigg),
-% \end{multlined}
-% \label{bivariate_lik}
-% \end{equation}
-% where $\mu_{y_1} = b_{01} + \bm{x}_i^T \bm{\beta}_1$,  $\mu_{y_2} = b_{02} + \bm{x}_i^T \bm{\beta}_2$ and $\bm{b}_0 =[b_{01} \hspace{2mm} b_{02}]^T$. Since the the model is bivariate, the full likelihood seems tractable, but we propose below a variable transformation to make the likelihood much simpler without losing any information.
-
-% \begin{equation}
-% \begin{multlined}
-% \begin{bmatrix} w_{i} \\ v_{i} \end{bmatrix} = 
-% \begin{bmatrix} y_{i1} + y_{i2} \\ y_{i1} - y_{i2} \end{bmatrix} = 
-% \begin{bmatrix}
-%  b_{01} + b_{02} \\ b_{01} - b_{02}
-% \end{bmatrix} + 
-%  \bm{x}_i^T \begin{bmatrix} \bm{\beta}_1 + \bm{\beta}_2 \\ \bm{\beta}_1 - \bm{\beta}_2\end{bmatrix} + \begin{bmatrix} u_w^2 \\ u_v^2\end{bmatrix}\\
-%  \begin{bmatrix} u_w^2 \\ u_v^2\end{bmatrix} \sim 
-%  \mathcal{N} \left( \begin{bmatrix}0 \\ 0 \end{bmatrix},
-%  \begin{bmatrix} 2 + 2\rho(\bm{x}_i, \bm{\alpha}) & 0 \\ 0 & 2-2\rho(\bm{x}_i, \bm{\alpha}) \end{bmatrix} \right)
-%  \end{multlined}
-%  \label{transformed_model}
-%   \end{equation}
-
-%  The two variables $w_i$ and $v_i$ are independent and the likelihood can be written as a sum of two univariate likelihoods.
-
-% \begin{equation}
-% \begin{multlined}
-% \ell(\bm{\alpha, b_0, \beta}) = -\frac{N}{2} log(2\pi) - \frac{1}{2} \sum_i log(2 + 2\rho(\bm{x}_i, \bm{\alpha})) - \sum_{i=1}^{N} \frac{(w_i - \mu_w)^2}{2 + 2\rho(\bm{x}_i, \bm{\alpha})} \\
-% -\frac{N}{2} log(2\pi) - \frac{1}{2} \sum_i log(2 - 2\rho(\bm{x}_i, \bm{\alpha})) - \sum_{i=1}^{N} \frac{(v_i - \mu_v)^2}{2 - 2\rho(\bm{x}_i, \bm{\alpha})}
-% \end{multlined}
-% \label{transformed_lik}
-% \end{equation}
-%  where $\mu_w$ and $\mu_v$ are $b_{01} + b_{02} + \bm{x}_i^T(\bm{\beta}_1 + \bm{\beta}_2)$ and $b_{01} - b_{02} + \bm{x}_i^T(\bm{\beta}_1 - \bm{\beta}_2)$ respectively. This transformation effectively changes the problem from modeling covariance to modeling variance, allowing us to apply results from literature on univariate heteroskedasticity. \\
-
-%  Given the likelihood in (\ref{transformed_lik}), we have two well-known tools to test the null hypothesis (\ref{null1}) --- likelihood ratio test and Rao's score test \footnote{In fact, due to the nuisance parameters, the appropriate terminology is Rao's efficient score test or equivalently Neyman's $C(\alpha)$ test \cite{kocherlakota1991neyman, neyman1979calpha}. Breusch and Pagan (1979) refers to the same procedure as Lagrange Multiplier Test \cite{breusch1979simple}. Bera and Bilias (2001) discusses the historical development of three methods - Rao's score test, Neyman's $C(\alpha)$ test, and Lagrange Multiplier test, and here we choose the term ``score test" as it is most familiar to the statisticians.\cite{bera2001rao}}. Both methods require us to impose certain assumptions on $\rho$, but Rao's score test allows much more flexibility. \\
+However, even though the introduced test statistic has convenient asymptotic properties, the inference might not be correct for problems with finite samples. The error is in the order of $N^{-1}$ (\cite{harris1985asymptotic}, and many Monte Carlo experiments show that the test rejects the null hypothesis less frequently than indicated by its nominal size (\cite{ godfrey1978testing, griffiths1986monte,honda1988size} . In response, corrections have been suggested (\cite{cribari2001monotonic, harris1985asymptotic, honda1988size}), and we apply Honda's method to ensure the asymptotic properties even under the small sample size (\cite{honda1988size}). The details of the small-sample correction as well as the derivation of the test statistic, are shared in the Appendix.\\
 
 
 \subsection{Test for Local Connectivity \label{sec:frameworkK}} 
@@ -365,21 +199,12 @@ In section (\ref{sec:framework2}), we proposed the statistic $q$ to test a pair 
 \end{equation}
 where the superscript in $\bm{H}_0^{(1)}$ indicates that the null hypothesis applies to variable 1. Under $\bm{H}_0^{(1)}$, no other variables' correlation with variable 1 changes across the different values of  $X$. We believe testing the global null (\ref{eq:globalnull}) improves the statistical power when the ``hot spot" variables or ``hub" variables are connected to a lot of other nodes forming cliques or modules. In the context of gene coexpression network, we know that transcription factors regulate the gene expression of multiple genes, and if one transcription factor varies with respect to the covariate, the transcriptions of those genes regulated by that transcription factor are likely to be correlated with the covariate as well. \\
 
-We propose a way to combine the test statistics to test (\ref{eq:globalnull}). Chen (2012) discusses two ways to construct the alternative hypothesis \cite{chen2012exponential} for testing the global null. One way, called a sparse alternative, is to test whether only a small number among all tests have non-zero effects while all other tests are null. Another way is to test if at least one test has a non-zero effect size. Based on our prior knowledge in biology and coexpression network, we assume that there are many small signals instead of few big ones, so we propose a simpler linear combination of the test statistics
+We propose a way to combine the test statistics to test (\ref{eq:globalnull}). \cite{chen2012exponential} discusses two ways to construct the alternative hypothesis (\cite{chen2012exponential}) for testing the global null. One way, called a sparse alternative, is to test whether only a small number among all tests have non-zero effects while all other tests are null. Another way is to test if at least one test has a non-zero effect size. Based on our prior knowledge in biology and coexpression network, we assume that there are many small signals instead of few big ones, so we propose a simpler linear combination of the test statistics
 \begin{equation}
 d_1 = {q}_{12} + {q}_{13} + \cdots + {q}_{1K} = \sum_{k=2}^{K} {q}_{1k}.
 \label{eq:d}
 \end{equation}
 Since each $q$ has been constructed from normalized data $w$ and $v$, it is the most natural to add them without additional weighting. We believe the statistic $d_1$ (\ref{eq:d}) improves the statistical power because even if the effect sizes for each gene pair may be too small to be detected, when combined they can form a stronger signal. \\
-
-% Combining multiple test statistics can have either positive or negative impact; the procedure can accrue relevant evidence to improve the statistical power, or it can accumulate noise to do the exact opposite. Therefore, we must carefully decide how to combine the test statistics based on the alternative hypothesis we would like to leverage against, and the alternative hypothesis must be constructed to reflect our prior knowledge about the covariance structure. \\
-
-% Chen (2012) discusses two ways to construct the alternative hypothesis \cite{chen2012exponential} for testing the global null. One way, called a sparse alternative, is to test whether only a small number among all tests have non-zero effects while all other tests are null. Another way is to test if at least one test has a non-zero effect size. Based on our prior knowledge in biology and coexpression network, we assume that there are many small signals instead of few big ones, so we propose a simpler linear combination of the test statistics
-% \begin{equation}
-% d_1 = {q}_{12} + {q}_{13} + \cdots + {q}_{1K} = \sum_{k=2}^{K} {q}_{1k}.
-% \label{eq:d}
-% \end{equation}
-% We believe combining the test statistics like (\ref{eq:d}) improves the statistical power because even if the effect sizes for each gene pair may be too small to be detected, when combined they can form a stronger signal. \\
 
 We now derive the null distribution of $d_1$ to test (\ref{eq:globalnull}). Although ${q}_{1k}$ separately follow $\chi_{P}^2$, they are correlated to one another, so their null distribution is not trivial. We start by re-writing the pairwise score statistic $q$ (ommitting gene pair index for now) as a sum of $\chi_1^2$ variables as below. Our null hypothesis tests for all covariates at the same time, so we can orthogonalize $X$ to make $\frac{1}{N} \sum_{i=1}^{N} \bm{x}_i \bm{x}_i^T$ an identity matrix without affecting the testing procedure. Let $\tilde{X}$ be the orthogonalized covariate matrix, and $\tilde{x}_{ip}$ be the corresponding entries with $\sum_{i=1}^{N}\tilde{x}_{ip} = 0$ and $\sum_{i=1}^{N} \tilde{x}_{ip}^2  = n$. Then (\ref{eq:q}) can be alternatively written as follows, where we define $r_{p}.$
 \begin{align}
@@ -393,20 +218,8 @@ q = \sum_{p=1}^{P}
 \label{eq:r}
 \end{align}
 For each $p$, $r_p$ asymptotically follows the standard normal distribution by the central limit theorem. 
-% $$E\left(x_{ip}\left( \frac{\hat{\sigma}_w^2 - \hat{u}_{wi}^2}{\hat{\sigma}_w^4}
-%  - \frac{\hat{\sigma}_v^2 - \hat{u}_{vi}^2}{\hat{\sigma}_v^4}
-%  \right)\right) = x_{ip} E\left( \frac{\hat{\sigma}_w^2 - \hat{u}_{wi}^2}{\hat{\sigma}_w^4} \right) E\left( \frac{\hat{\sigma}_v^2 - \hat{u}_{vi}^2}{\hat{\sigma}_v^4}
-%  \right) = 0$$
-% $$Var\left(x_{ip}\left( \frac{\hat{\sigma}_w^2 - \hat{u}_{wi}^2}{\hat{\sigma}_w^4}
-%  - \frac{\hat{\sigma}_v^2 - \hat{u}_{vi}^2}{\hat{\sigma}_v^4}
-%  \right)\right) = 
-%  x_{ip}^2 \left( Var\left( \frac{\hat{\sigma}_w^2 - \hat{u}_{wi}^2}{\hat{\sigma}_w^4} \right)  + Var\left( \frac{\hat{\sigma}_v^2 - \hat{u}_{vi}^2}{\hat{\sigma}_v^4}
-%  \right)\right)
-%  $$
-%  $$ = \frac{\hat{\sigma}_w^4 + \hat{\sigma}_v^4}{\hat{\sigma}_w^4 \hat{\sigma}_v^4}$$
-% This confirms the previous result
-% $$\sum_{p=1}^{P} r_p^2 \rightarrow \chi_P^2$$
- Now, we acquire a closed-form covariance structure of $r$. First, we begin with a multivariate central limit theorem to write the following in terms of $r$.
+
+Now, we acquire a closed-form covariance structure of $r$. First, we begin with a multivariate central limit theorem to write the following in terms of $r$.
 \begin{equation}
 \bm{r}_{1,p} = \begin{bmatrix}
 r_{12,p} \\ r_{13, p} \\ \cdots \\ r_{1K,p}
@@ -424,12 +237,12 @@ where
 $${\tau}_{k\ell}= \frac{\rho_{k\ell}}{\sqrt{{\rho}_{kk}{\rho}_{\ell\ell}}}. $$
 The derivation is in the Appendix. \\
 
-Then, $d_1$ can be written as the sum of L2 norm of $\bm{r}_{1,p}$ with a known distribution, 
+Note that $d_1$ can be written as the sum of L2 norm of $\bm{r}_{1,p}$ with a known distribution, 
 \begin{equation}
 d_1 = \sum_{p=1}^{P} \|\bm{r}_{1,p}\|_2^2 = \sum_{p=1}^{P} \sum_{k=2}^K r_{1k,p}^2.
 \label{eq:d2}
 \end{equation}
-Let $H_1 = U_1 \Lambda_1 U_1^T$ be the eigen-decomposition of the covariance matrix $H_1$ in (\ref{eq:H}), where the diagonal matrix $\Lambda$ has eigenvalues $\lambda_{12}, \cdots, \lambda_{1K}$ in a decreasing order. Then, we can next consider the transformation $\bm{r}_{1,p}^* = U\bm{r}_{1,p}$ that follows normal distribution with diagonal covariance matrix $N_{K-1}(\bm{0}, \Lambda_1)$. Note that $\|\bm{r}_{1,p}\|_2^2 = \|U\bm{r}_{1,p}\|_2^2$ due to the orthogonal invariance of L2 norm. Then,
+Let $H_1 = U_1 \Lambda_1 U_1^T$ be the eigen-decomposition of the covariance matrix $H_1$ in (\ref{eq:H}), where the diagonal matrix $\Lambda$ has eigenvalues $\lambda_{12}, \cdots, \lambda_{1K}$ in a decreasing order. Then, we can next consider the transformation $\bm{r}_{1,p}^* = U\bm{r}_{1,p}$ that follows normal distribution with diagonal covariance matrix $\Lambda_1$. Note that $\|\bm{r}_{1,p}\|_2^2 = \|U\bm{r}_{1,p}\|_2^2$ due to the orthogonal invariance of L2 norm. Then,
 \begin{equation}
     \begin{multlined}
     \sum_{p=1}^{P} {r_{1k,p}^*}^2 \sim \Gamma \left( \frac{P}{2}, \frac{\lambda_{1k}}{2} \right), \hspace{5mm} k = 2, \cdots, K\\
@@ -438,7 +251,7 @@ Let $H_1 = U_1 \Lambda_1 U_1^T$ be the eigen-decomposition of the covariance mat
     \label{eq:d_dist}
 \end{equation}
 
-Assuming that we know the true, symmetric, positive definite $H_1$, we can acquire positive $\lambda_{1k}$ for $k = 2, \cdots, K$, and we have expressed the null distribution of $d_1$ as the sum of distributions of independent gamma variables. We can computationally simulate this null distribution easily. Alternatively, Moschopoulos (1985) provides another interpretation by expressing the cumulative distribution in a form of infinite sum, but the method is inconvenient in practice \cite{moschopoulos1985distribution}.\\
+Assuming that we know the true, symmetric, positive definite $H_1$, we can acquire positive $\lambda_{1k}$ for $k = 2, \cdots, K$, and we have expressed the null distribution of $d_1$ as the sum of distributions of independent gamma variables. We can computationally simulate this null distribution easily. Alternatively, Moschopoulos (1985) provides another interpretation by expressing the cumulative distribution in a form of infinite sum, but the method is inconvenient in practice (\cite{moschopoulos1985distribution}).\\
 
 In (\ref{eq:eta}), we define the element-wise mapping $\phi: \Sigma \rightarrow H$, but in practice, we do not know true $\Sigma$. As other nuisance parameters, we can use its maximum likelihood estimate instead. It is clear from the construction of $H$ that if we can estimate a well-conditioned, symmetric, positive definite correlation matrix $\hat{\Sigma}$, $\phi(\hat{\Sigma})$ is also symmetric and positive definite. When $N$ is sufficiently larger than $K$, empirical covariance matrix $\hat{\Sigma}$ of $\begin{bmatrix} y_{1i} & y_{2i} & y_{3i} \end{bmatrix}$ is a pretty good consistent estimator for $\Sigma$, and replacing $\Sigma$ with $\hat{\Sigma}$ in computing $H$ can guarantee that the test statistic (\ref{eq:d}) converges in distribution to (\ref{eq:d_dist}). 
 
@@ -447,13 +260,13 @@ Under the setting of Proposition \ref{theorem:q}, and two additional assumptions
 $\frac{1}{N} \sum_{i=1}^{N} \bm{x}_i \bm{x}_i^T$ is a $P$ by $P$ identity matrix and that (2) $H_1$ is strictly positive definite, $d_1$ asymptotically follows the sum of Gamma distributions as defined in (\ref{eq:d_dist}) under the global null hypothesis (\ref{eq:globalnull}). 
 \end{prop}
 
-However, when $K$ is much larger than $n$, an accurate estimation of $\Sigma$ is a difficult problem. We therefore turn to a permutation test and shuffle the covariate vector to test against the true response data that preserves the correlation structure of the network. The permutation procedure is valid under the assumption in (\ref{eq:framework_2genes}). \\
+However, when $K$ is larger than $n$, an accurate estimation of $\Sigma$ is a difficult problem. We therefore turn to a permutation test and shuffle the covariate $X$ to test against the true response data that preserves the correlation structure of the network while maintaining the dependence structure of $Y$. The permutation procedure is valid under the assumption in (\ref{eq:framework_2genes}). \\
 % So we instead turn to the permutation test, which is valid under the independence assumption in \ref{eq:framework_2genes}. Empirically, we justify the exchangeability of GTEx subjects through some exploratory analysis which shows that the covariance matrix of the gene expression levels has small non-diagonal elements. Also the principal components didn't show any clustering. We conclude that permutation test is well justified, and so we shuffle the covariate vector and test against the network data to preserve the correlation structure of the network. \\
 
-We use the sequential precision-improvement permutation test, similar to one suggested by Chen (2012) \cite{chen2012exponential}. Permutation test often results in a poor resolution of $p$-values which can lead to imprecise inference especially when we need to correct for the testing of multiple hypotheses. Meanwhile, performing a large number of permutations for many genes can be computationally wasteful. In order to find balance, as we proceed with incrementally larger number of permutations, we count the number of cases that led to more extreme degree statistics than the observed $d_k$. After the minimum number of permutations predefined by the user (1000 in our analysis), if two extreme cases, compared to the true statistic, were found, the permutation procedure is terminated early. If there are less than 2 such cases observed, we perform 100 more permutations and re-check the number of extreme cases and early termination. We repeat until it reaches the predefined maximum number of permutation ($10^6$ in our case), which is designed to give a good enough resolution of $p$-value given the number of tests that we are performing. 
+We use the sequential precision-improvement permutation test, similar to one suggested by \cite{chen2012exponential}. Permutation test often results in a limited resolution of $p$-values which can lead to imprecise inference especially when we need to correct for the testing of multiple hypotheses. Meanwhile, performing a large number of permutations for every can be computationally wasteful. To find balance, as we proceed with incrementally larger number of permutations, we count the number of cases that result in higher $d_k$ than observed. After the minimum number of permutations predefined by the user (1000 in our analysis) if two or more such cases were found (quantile 0.2\%), the permutation procedure is terminated early. If there are less than 2 such cases observed, we perform 100 more permutations and re-check the number of extreme cases for early termination. We repeat until it reaches the predefined maximum number of permutation ($10^6$ in our case), which is designed to give a good enough resolution of $p$-value given the number of tests that we are performing. 
 
 \section{Simulation Studies} \label{simulations}
-In this section, we evaluate the proposed method through simulations. We focus on the pairwise analysis and compare the performance of the proposed score test with two other alternatives - liquid association and likelihood ratio test. \\
+In this section, we evaluate the proposed method through simulations. We focus on the pairwise analysis and compare the performance of the proposed score test with two other alternatives - liquid association and the likelihood ratio test. \\
 
 First we check the calibration of test statistics under the null hypothesis. We sample $X$ from the univariate standard normal distribution to match the required setting of liquid association. We simulate the data matrix $Y$ from $$\bm{y}_i \sim \mathcal{N}_2\left(\bm{b}_0 + \bm{x}_i^T\bm{\beta}, \begin{bmatrix} 1 & \bar{\rho} \\ \bar{\rho} & 1 \end{bmatrix}  \right)$$ where $\bar{\rho}$ was randomly selected from uniform distribution ranging from -1 and 1 and each element of $\bm{b}_0$ and $\bm{\beta}$ from standard normal distribution. We test different sample sizes of $N = 500, 100, 30$ to check the behavior of each method under the null hypothesis. For each $N$, we sample $X$ once, and generate $Y$ 1,000 times. The likelihood ratio test was designed to assume hyperbolic tangent model for $\rho$,
 \begin{align}
@@ -463,7 +276,6 @@ First we check the calibration of test statistics under the null hypothesis. We 
 which is the inverse of Fisher transformation, 
 $\frac{1}{2} \bm{x}_i^T\bm{\alpha} = \frac{1}{2}log \left(\frac{1+\rho}{1-\rho}\right)$. Fisher-transformed $\rho$ asymptotically follows normal distribution, so it works well when $X$ is drawn from normal distribution. We use \textit{optim} function in R to find $\hat{\bm{\alpha}}_{\text{MLE}}$ under the alternative hypothesis. \\
 
-% Simulate under b_0 = 0 and beta = 0, because estimating MLEs of b_0, beta, and alpha all at the same time is numerically / computationally impossible. Make separate simulation with non-zero mean terms just for the score test.
 The results show that all three methods control the type I error at the nominal size well, where score and likelihood ratio test statistics both follow $\chi_1^2$ closely. So we focus on the small sample case $N=30$ as that is close to the size of the real data of African Americans' gene expression level.\\
 
 Next we generate the data under the alternative hypothesis to compare the statistical power. We pick the most difficult scenario of low sample size $N=30$, we again draw $X$ from standard normal distribution. Then for $i = 1, \cdots, N$, we generate $\rho(\bm{x}_i^T\bm{\alpha})$ from hyperbolic tangent function in (\ref{eq:data_generating_fisher}). Given $\rho$, we draw $Y$ from (\ref{eq:framework_2genes}) with varying levels of $\alpha$, 1000 times each. The hyperbolic tangent model places the likelihood ratio test at an advantage because the model is correctly specified, so as a contrasting case, we use a quadratic model to generate $\rho$ as follows. Subtracting 0.99 is to ensure numerical stability.
@@ -475,24 +287,19 @@ Next we generate the data under the alternative hypothesis to compare the statis
 
 Since the likelihood ratio test assumes a wrong model, it is expected to lose power. Also, since quadratic function is highly non-linear, liquid association is expected to have poor performance as well. Figure \ref{fig:sim} (a) and (b) show the shape of $\rho$ with respect to $X$ with varying levels of $\alpha$. \\
 \begin{figure}
-     \begin{subfigure}[b]{0.3\textwidth}
-         \includegraphics[width=\textwidth]{figures/tanh.png}
-         \caption{}
-     \end{subfigure}
-     \begin{subfigure}[b]{0.3\textwidth}
-         \includegraphics[width=\textwidth]{figures/quadratic.png}
-         \caption{}
-     \end{subfigure}
-     \begin{subfigure}[b]{0.3\textwidth}
-         \includegraphics[width=\textwidth]{figures/comptime.png}
-         \caption{}
-     \end{subfigure}
-        \caption{\label{fig:sim} (a)-(c) The two heteroskedastic functions $\rho$ used to generate data. Simulation results in Table \ref{tab:pairwise_simulation} show that score test outperforms LA in both cases, and that LA particularly suffers in capturing the non-linear relationship in quadratic model. Likelihood ratio test performs better than score test when the model is correctly specified, but when the model is mis-specified, score test performs better. (c) The violin plot shows the distribution of the run-times for 1000 simulations for each method. Our proposed method takes le}
+         \includegraphics[width=0.32\textwidth]{figures/tanh.png}
+         \includegraphics[width=0.32\textwidth]{figures/quadratic.png}
+         \includegraphics[width=0.32\textwidth]{figures/comptime.png}
+        \caption{The first and second plots show the two example functions $\rho$ used to generate data. Simulation results in Table \ref{tab:pairwise_simulation} show that score test outperforms LA in both cases, and that LA particularly suffers in capturing the non-linear relationship in quadratic model. Likelihood ratio test performs better than score test when the model is correctly specified, but when $\rho$ is mis-specified, score test performs better. The third plot shows for each method the distribution of the 1000 run-times for computing a single score test. Our proposed method performs better than likelihood ratio test in the scale of $10^2$.}
+        \label{fig:sim}
 \end{figure}
 
-Table \ref{tab:pairwise_simulation} summarizes the result. It counts the proportion of simulations which showed $p$-values less than 0.05 out of 1,000 total simulations. When $\rho$ is generated from hyperbolic tangent function, likelihood ratio test generally outperforms the other two methods, as expected since the model is correctly specified in LR test. Score test, although does not assume any model on $\rho$, does not lose as much power as liquid association does. Meanwhile, when $\rho$ is generated from quadratic function, score function clearly outperforms the other two methods. The proposed score test is robust to the shape of heteroskedasticity. Figure \ref{fig:sim} (c) shows the distribution of computation times of each method in the scale of $log_{10}$ for 1000 simulations under quadratic model with $\alpha = 0.5$. The score test is the most efficient, because the likelihood ratio test requires numerical estimation of MLEs both under the null and under the alternative hypothesis while liquid association requires permutation test for inference. 
+Table \ref{tab:pairwise_simulation} summarizes the result. It counts the proportion of simulations which showed $p$-values less than 0.05 out of 1,000 total simulations. When $\rho$ is generated from hyperbolic tangent function, likelihood ratio test generally outperforms the other two methods, as expected since the model is correctly specified in LR test. Score test, although does not assume any model on $\rho$, does not lose as much power as liquid association does. Meanwhile, when $\rho$ is generated from quadratic function, score function clearly outperforms the other two methods. The proposed score test is robust to the shape of heteroskedasticity. Figure \ref{fig:sim} (c) shows the distribution of computation times of each method to compute the test statistic once in the scale of $log_{10}$ for 1000 simulations under quadratic model with $\alpha = 0.5$. The score test is the most efficient, because the likelihood ratio test requires numerical estimation of MLEs both under the null and under the alternative hypothesis while liquid association requires permutation test for inference. The simulations were done in sequentially (non-parallel) with LAMBDA QUAD workstation with Intel Xeon W-2175 processor.
 
-\begin{table}[!htbp] \centering 
+\begin{table}
+\centering 
+ \caption{Proportion of simulations for each method that showed $p$-value $<0.05$ at given data generating model and $\alpha$ level. We use two functions for $\rho$, hyperbolic tangent and quadratic function. The likelihood ratio test was conducted under the assumption that $\rho$ is hyperbolic tangent (tanh) function.} %Proposed score test performs better than liquid association in all cases.}
+ \label{tab:pairwise_simulation}
 \begin{tabular}{@{\extracolsep{5pt}} cc||cccc||cccc} 
 \multicolumn{1}{c}{$\rho$} &\multicolumn{1}{c}{}& \multicolumn{4}{c}{tanh} & \multicolumn{4}{c}{quadratic}\\
 \\[-1.8ex]\hline 
@@ -505,107 +312,20 @@ LR    & 0.046 & 0.247 & 0.693 & 0.965 & 0.992 & 0.533 & 0.438 & 0.371 & 0.338\\
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex]
 \end{tabular}
-  \caption{ Proportion of simulations for each method that showed $p$-value $<0.05$ at given data generating model and $\alpha$ level. We use two functions for $\rho$, hyperbolic tangent and quadratic function. The likelihood ratio test was conducted under the assumption that $\rho$ is hyperbolic tangent (tanh) function. Proposed score test performs better than liquid association in all cases.  \label{tab:pairwise_simulation}}
 \end{table} 
 
-
-% \subsection{$K>2$}
-% First, we simulate data in low dimensional case ($N = 30$ and $K = 5$). This setting allows us to use the test statistic $d$ with null distribution in (\ref{d_dist}). We first compute $H$ using formula in (\ref{eq:eta}) from $\Sigma$ directly assuming $\Sigma$ is known. Then we used $\hat{\Sigma}_{\text{MLE}}$, the empirical covariance matrix to compute $H$. Type I error is controlled well under both cases. \\
-
-%  We also simulate data under the high dimensional case ($N=30$ and $K=1000$) and use permutation test. The computational burden is increases linearly with the number of variables and with the number of permutations. To alleviate the computational burden, we use sequential precision-improvement permutation algorithm, where we start with few permutations $B=100$ and not perform any more if $p$-values is greater than 0.1. Then we perform 1000 permutations for those with $p$-values less than $0.1$, and then move on with only those with $p$ values less than 0.01. We repeat the procedure until we achieve the precision we desire \cite{chen2012exponential}.
-
-
-
-% \subsection{Under the Null Hypothesis}
-
-
-% \subsection{Under the Alternative Hypothesis}
-
-% Power analysis
-
-% \subsection{Comparison with Likelihood Ratio Test}
-% A simple alternative to the proposed method is the likelihood ratio test using the model in (\ref{eq2}). In order to conduct the likelihood ratio test, one must assume a specific model in $h$, and estimate the maximum likelihood estimate (MLE) numerically. Explicitly modeling $h$ can either benefit or harm the analysis. If the model is correct, the statistical power will naturally improve; if the model is mis-specified, the performance could be worse. Our proposed method avoids this problem because it is ``model-free" in that the test statistic does not depend on $h$.  In this section, through simulations, we show that our method is better than the likelihood ratio test for three reasons. First, the simulations under the null hypothesis show that the likelihood ratio test statistics are poorly calibrated to $\chi_1^2$ distribution when sample size is not sufficiently large. Second, simulations under the alternative hypothesis show that the statistical power is only minimally better than the proposed method when the model is correctly specified while is often worse than our method when the model is mis-specified. Third, since the maximum likelihood estimate of $\alpha$ cannot be obtained analytically, likelihood ratio test requires numerical optimization to find the MLE for each pair of variables, making it an unattractive choice in terms of computational burden as well.\\
-
-%  The first simulation is under the null hypothesis. We use sample size $n = 30, 100,$ and $500$ and store the $p$-values by comparing the test statistics, both likelihood ratio and Lagrange Multiplier, to the $\chi_1^2$ distribution. Given the sample size $n$, we simulate $X$ once from uniform distribution, to reflect the distribution of genetic ancestry. For this fixed $X$, we simulate $Y_1$ and $Y_2$ 1,000 times from bivariate normal distribution, where $Y_1$ and $Y_2$ both have mean 0 and variance 1 marginally with their covariance $\rho(X)$ fixed to 0.5. \\
-
-%  The results are summarized in Figure \ref{calibration}. The qq-plots shows that the p-values from the likelihood ratio tests are poorly calibrated to the expected uniform distribution for cases of $n=100$ and $n=30$. Meanwhile, the Lagrange Multiplier test, with the help of small sample correction, effectively controls the type I error and the test statistics are well calibrated to $\chi_1^2$ distribution even under the extremely low sample size of $n=30$.
-
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=0.98\linewidth]{figures/calibration.png}
-%     \caption{\label{calibration} Calibration of $p$-values under the null hypothesis for two methods of Lagrangian Multiplier test and likelihood ratio test. LM stands for Lagrangian Multiplier test, and LR stands for likelihood ratio test.}
-% \end{figure}
-
-
-%  Next, we simulate under the alternative hypothesis where $h$ is specified to be the Fisher transformation defined in (\ref{fisher}). Based on the result of the first simulation, we use sample size $n=500$ to ensure type I error control. Under a simple scenario of $K=2$, we simulate $X$ once from uniform distribution to reflect the distribution of genetic ancestry. For this fixed $X$, we simulate $Y_1$ and $Y_2$ 1,000 times from bivariate normal distribution, where $Y_1$ and $Y_2$ both have mean 0 and variance 1 and their covariance $\rho(X)$ depends on function $h$ as shown in (\ref{sigma}) and (\ref{eq1}). Based on this generated data, we use \textit{optim} function in R to numerically find the MLE of $\alpha$ in model (\ref{eq2}). At first, we conduct the likelihood ratio test assuming correctly that $h$ is Fisher transformation. Then, we conduct the same test with the wrong assumption that $h$ is a cumulative distribution function of standard normal. We finally conduct our proposed ``model-free" method. For all three cases, we record the $p$-values and record how many are smaller than 0.05. \\
-
-%  Table \ref{mle_power} summarizes the statistical power under three scenarios with varying strengths of the signal $\alpha$. The comparison of first and third column shows that when the MLEs were calculated assuming the correct Fisher model, the statistical power is mostly greater than our proposed method, but only marginally. Meanwhile, the comparison of second and third column shows that when the wrong model is assumed, the statistical power is worse than our model-free, flexible method. \\
-
-% \begin{table}[!htbp] \centering 
-% \begin{tabular}{lccc} 
-% \\[-1.8ex]\hline 
-% \hline \\[-1.8ex] 
-% & Proposed & Fisher & Normal CDF \\ 
-% \hline \\[-1.8ex] 
-% $\alpha = 0$ & $0.054$ & $0.051$ & $0.046$ \\ 
-% $\alpha = 0.2$ & $0.078$ & $0.084$ & $0.071$  \\ 
-% $\alpha = 0.4$ & $0.162$ & $0.172$ & $0.153$ \\ 
-% $\alpha = 0.6$ & $0.322$ & $0.338$ & $0.306$  \\ 
-% $\alpha = 0.8$ & $0.483$ & $0.490$ & $0.449$ \\ 
-% $\alpha = 1$ & $0.628$ & $0.645$ & $0.610$ \\ 
-% \hline \\[-1.8ex] 
-% \end{tabular} 
-%   \caption{  \label{mle_power}  Power analysis under the alternative hypothesis where $h$ is the Fisher transformation in \ref{fisher}. The proposed method doesn't perform as well as the likelihood ratio test when the model is correctly specified, but it performs better than the same test when model is mis-specified. } 
-% \end{table}
-
-%  Lastly, we empirically measured the computing time of the likelihood ratio test and the proposed Lagrange Multiplier test. The result summarized in Figure ? suggests that the proposed method is preferred.
-
-% \subsection{Comparison with Liquid Association}
-
-% We also compare the performance of the proposed method with that of liquid association \cite{li2002genome}. Similarly, under the simple scenario of $K=2$, we simulate $X$ once with sample size of $n=100$. (Is this okay? Should I make it 500 for consistency?) For this scenario, we simulate $X$ from standard normal distribution to match the assumptions of liquid association. For this fixed $X$, we simulate $Y_1$ and $Y_2$ 1,000 times from bivariate normal distribution, where $Y_1$ and $Y_2$ both have mean 0 and variance 1 and their covariance $\rho(X)$ depends on function $h$. We use two different $h$ functions; one is Fisher function defined in (\ref{fisher}) which by definition gives a strict range of (0,1) to $\rho$, and the other is a quadratic function designed to do the same for $X$ in $(-2.5, 2.5)$ and $\alpha$ in $(0,4)$.
-% $$h(X) = \frac{(X\alpha)^2}{50} + 2.1$$ 
-% The two options of $h$ are illustrated in Figure (\ref{la_h}).\\
-
-%  The results in Table \ref{power_la} show that under the Fisher model, the liquid association has higher power, especially as the signal gets stronger. However, when the $\rho(X)$ has a quadratic pattern and is not monotonic with respect to $X$, the same method loses all its statistical power. 
-
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=0.4\linewidth]{figures/Fisher.png}
-%     \includegraphics[width=0.4\linewidth]{figures/Quadratic.png}
-%     \caption{\label{la_h} The two heteroskedastic models used to generate data. Simulation results show that the liquid association can only capture the relationship between $\rho(X)$ and $X$ for the left case.}
-% \end{figure}
-
-
-% \begin{table}[!htbp] \centering 
-% \begin{tabular}{@{\extracolsep{5pt}} ccc|cc} 
-% \\[-1.8ex]\hline 
-% \hline \\[-1.8ex] 
-% & \multicolumn{2}{c}{Fisher} & \multicolumn{2}{c}{Quadratic}  \\
-% \hline \\[-1.8ex] 
-%  & LA & LM & LA & LM \\ 
-% \hline \\[-1.8ex] 
-% $\alpha=1$ & $0.044$ & $\bm{0.077}$ & $0.005$ & $\bm{0.052}$ \\ 
-% $\alpha=2$ & $\bm{0.109}$ & $\bm{0.109}$ & $0.009$ & $\bm{0.052}$ \\ 
-% $\alpha=3$ & $\bm{0.150}$ & $0.113$ & $0.005$ & $\bm{0.067}$ \\ 
-% $\alpha=4$ & $\bm{0.186}$ & $0.132$ & $0.006$ & $\bm{0.073}$ \\ 
-% \hline \\[-1.8ex] 
-% \end{tabular} 
-%   \caption{True discovery rate for various signal strength $\alpha$ and two models for heterogeneity. LA stands for liquid association and LM stands for Lagrange Multiplier. Under the Fisher model, where the heteroskedasticity is monotonic, liquid association performs better, especially as the signal becomes stronger, because it captures the linear correlation between the covariate and the correlation between the two variables. Under the quadratic model, where heteroskedasticity is non-monotonic, liquid association loses all its power, and the proposed method performs better.   \label{power_la} } 
-% \end{table} 
-
-
 \section{Applications to GTEx Data} \label{sec:applications}
-We next apply this method to African American samples from GTEx. We aim to find a group of genes that change its coexpression structure as the genome's proportion of African ancestry changes. The proportion of African ancestry for each individual is defined as global ancestry, and it is referred from software LAMP \cite{pacsaniuc2009imputation}. The data sets are explained in more detail in the Appendix.\\
+We next apply this method to African American samples from GTEx \cite{gtex2015genotype}. We aim to find a group of genes that change its coexpression structure as the genome's proportion of African ancestry changes. The proportion of African ancestry for each individual is defined as global ancestry, and it is referred from software LAMP (\cite{pacsaniuc2009imputation}). \\
 
-We first conduct the data analysis on the muscle skeletal tissue, where 71 African American samples are available. Due to low sample size, we restrict our search space to only transcription factors, which are known to have high correlation with many other genes. Therefore, if their impact sizes on other genes are different based on genetic ancestry, such relationship could have important biological implications. \\
+We conduct the data analysis on the muscle skeletal tissue, where 71 African American samples are available. Due to low sample size, we restrict our search space to only transcription factors, which are known to have high correlation with many other genes. Therefore, if their impact sizes on other genes are different based on genetic ancestry, such relationship could have important biological implications. \\
 
-We use the genotype data and normalized gene expression level data from GTEx V6p release \cite{lonsdale2013genotype} to apply the method to the African American samples and their gene coexpression network. The data has been pre-processed by GTEx as explained in the GTEx portal (https://gtexportal.org). In order to select African Americans from the available samples, we first inferred the local ancestry of the samples who identified themselves as European Americans or African Americans and verified that their genetic ancestry is consistent. For local ancestry inference, we use the software LAMP that reaches as high as 98\% accuracy level for distinguishing YRI and CEU ancestry \cite{pacsaniuc2009imputation}. We also need the reference minor allele frequency from the pure population, so we used data from 1000 Genome Project. For the initial setting of hyperparameters in LAMP, we use 7 for the number of generations of admixture, 0.2 and 0.8 for the initial proportion of CEU and YRI population, and $10^{-8}$ for recombination rate, but the results are robust to these settings. LAMP returns local ancestry at each SNP as the count of African chromosomes (0, 1, or 2) at each locus, and we use the SNP closest to the center of the gene to represent the local ancestry of the entire gene.  Around 92\% of the genes show no recombination event in all of the subjects, and less than 3\% of the genes have more than one individual with ancestry switch within the gene, so we believe this is a valid approximation. \\
+We use the genotype data and normalized gene expression level data from GTEx V6p release (\cite{lonsdale2013genotype}) to apply the method to the African American samples and their gene coexpression network. The data has been pre-processed by GTEx as explained in the GTEx portal (https://gtexportal.org). In order to select African Americans from the available samples, we first inferred the local ancestry of the samples who identified themselves as European Americans or African Americans and verified that their genetic ancestry is consistent. For local ancestry inference, we use the software LAMP that reaches as high as 98\% accuracy level for distinguishing YRI and CEU ancestry (\cite{pacsaniuc2009imputation}). We also need the reference minor allele frequency from the pure population, so we used data from 1000 Genome Project. For the initial setting of hyperparameters in LAMP, we use 7 for the number of generations of admixture, 0.2 and 0.8 for the initial proportion of CEU and YRI population, and $10^{-8}$ for recombination rate, but the results are robust to these settings. LAMP returns local ancestry at each SNP as the count of African chromosomes (0, 1, or 2) at each locus, and we use the SNP closest to the center of the gene to represent the local ancestry of the entire gene.  Around 92\% of the genes show no recombination event in all of the subjects, and less than 3\% of the genes have more than one individual with ancestry switch within the gene, so we believe this is a valid approximation. \\
 
-We define global ancestry as a value between 0 and 1 that quantifies the proportion of African chromosome in each subject. We first estimate it by averaging the inferred local ancestry, and this estimate is cross-checked with principal component analysis which can effectively cluster the subjects into subpopulations \cite{pritchard2000inference}. We also include pure YRI and CEU population for PCA, and most African Americans lie strictly between the YRI and CEU population showing a two-way admixture between pure Europeans and pure Africans. We observed some outliers that were not placed between pure populations, and so we removed them. We also observed some self-identified Europeans whose genetic ancestry is more than 10\% African, and we include them in our analysis as African Americans. \\
+We define global ancestry as a value between 0 and 1 that quantifies the proportion of African chromosome in each subject. We first estimate it by averaging the inferred local ancestry, and this estimate is cross-checked with principal component analysis which can effectively cluster the subjects into subpopulations (\cite{pritchard2000inference}). We also include pure YRI and CEU population for PCA, and most African Americans lie strictly between the YRI and CEU population showing a two-way admixture between pure Europeans and pure Africans. We observed some outliers that were not placed between pure populations, and so we removed them. We also observed some self-identified Europeans whose genetic ancestry is more than 10\% African, and we include them in our analysis as African Americans. \\
 
 The expression levels provided by GTEx were measured using RNA-seq for 38,498 genes in the autosomal chromosomes. For each tissue, only genes with RPKM higher than 0.1 were included. Then the expression levels are normalized, log-transformed, and corrected for technical artifacts by GTEx Consortium. \\
 
-We limit our analysis of real data to transcription factors and the gene expression levels of muscle skeletal tissue. We acquired a list of transcription factors from TF checkpoint database \cite{chawla2013tfcheckpoint}. We also acquire a list of target genes for each transcription factors from TF2DNA database \cite{pujato2014prediction}. We only took into consideration target genes with the highest binding scores. \\
+We limit our analysis of real data to transcription factors and the gene expression levels of muscle skeletal tissue. We acquired a list of transcription factors from TF checkpoint database (\cite{chawla2013tfcheckpoint}). We also acquire a list of target genes for each transcription factors from TF2DNA database (\cite{pujato2014prediction}). We only took into consideration target genes with the highest binding scores. \\
 
 For each transcription factor encoding gene $k = 1, \cdots, K = 848$, we compute the pair-wise test-statistic $q_{kj}$ for all its target genes $j = 1, \cdots, J_k$, where $J_k$ is the number of target genes for each transcription factor $k$. Then, we compute $d_k = \sum_{j=1}^{J_k} q_{kj}$ to test the hypothesis that the correlation between the transcription factor $k$ and its targets remain the same across different genetic industry. \\
 
@@ -633,27 +353,25 @@ ZSCAN & 0.002 & 0.415 \\
 Two genes, MECOM and ZNF423, maintain their significance level of 0.01 under the Bonferroni criterion for 912 transcription factors. For the top gene MECOM, the highest contributing target genes were C3orf70 and P2RY1, each having scores of 26.74 and 25.69 (should follow $\chi_1^2$ under the null hypothesis). Although these values look very high, they do not pass the Bonferroni test after taking into account the number of tests. The significance of MECOM (and ZNF423) is achieved through combining the scores across all the target genes. 
 
 \section{Discussion}
-We proposed a method to test whether covariance between bivariate normal variables changes with continuous covariates. We further expanded our scope of analysis by looking at ``local connectivity" --- how one variable's connectivity with multiple other variables change with continuous covariates. We provided a real data example by identifying major transcription factor genes that are differentially connected with its targets by African Americans' genetic ancestry. \\
+We proposed a method to test whether covariance between bivariate normal variables changes with continuous covariates. We further expanded our scope of analysis by looking at local connectivity --- how one variable's connectivity with multiple other variables change with continuous covariates. We provided a real data example by identifying major transcription factor genes that are differentially connected with its targets by African Americans' genetic ancestry. \\
 
 The computational performance can be improved with additional assumption. For example, one could impose a sparsity assumption on the covariance matrix, and that can lead to a reliable estimate of $\Sigma$ and subsequently $H$ in (\ref{eq:H}). In our context, the sparsity assumption is highly restrictive, but in other applications, one can take the liberty to make structural assumptions on the covariance matrix.  \\
 
 Our method is more flexible than other alternatives for covariance testing, but it still has some limitations. First, when there are more variables than the available sample size, as often is the case for many modern data sets, we ultimately turn to a permutation test, not being able to take the computational advantage of the theoretical results. Second, the score statistic $q$ was derived under the normality assumption of the data set, although simulations show that the result is quite robust to distribution mis-specification. These limitations of the methods propose possible future research topics: (1) better way to estimate $H$ in (\ref{eq:H}) when $K > N$ to preserve asymptotic results, and (2) a non-parametric version of correlation analysis that can generalize to any underlying distributions. \\
 
 We believe the proposed method can be applied to data problems in diverse domains, especially where certain ``hub" variables are connected to many other variables as in the transcriptional regulatory network. Many network problems, such as protein interactions, metabolic networks, co-authorship network, and semantic network, are known to have --- or have something close to --- scale-free topology, indicating that the important variables in those networks can be tested against other variables. The proposed correlation analysis will provide insights into the building blocks of diverse network problems by looking at the pairwise and more than pairwise relationships among the variables.
- 
-\pagebreak 
 
 \bibliographystyle{imsart-nameyear}
 \bibliography{ref}
  
 \pagebreak
  
-\section*{Appendix A. Derivation of $q$}
-We start from the model in (\ref{eq:framework_2genes}). The hat notation is used to note the maximum likelihood estimates. The nuisance parameters can be replaced with their respective maximum likelihood estimators under the null hypothesis. When $\bm{\alpha} = \bm{0}$, $\alpha_0 = \hat{\alpha}_0$, $\hat{\bm{\beta}}$ and $\hat{\bm{b}}$ can be acquired from ordinary linear squares estimates. The variance terms $\hat{\rho}_{11}$ and $\hat{\rho}_{22}$ are
+\section*{Appendix A. Derivation of test statistic}
+We start from the model in (\ref{eq:framework_2genes}). The hat notation is used to note the maximum likelihood estimates. The nuisance parameters can be replaced with their respective maximum likelihood estimators under the null hypothesis. When $\bm{\alpha} = \bm{0}$, $\alpha_0 = \hat{\alpha}_0$, and $\hat{\bm{\beta}}$ and $\hat{\bm{b}}$ can be acquired from ordinary linear squares estimates. The MLE for the variance terms $\hat{\rho}_{11}$ and $\hat{\rho}_{22}$ are
 $$\hat{\rho}_{11} =  \frac{\sum_{i=1}^{N}(y_{i1} - b_1 - \bm{x}_i^T\bm{\hat{\beta}}_{1})^2}{N}$$
 $$\hat{\rho}_{22}=  \frac{\sum_{i=1}^{N}(y_{i2} - b_2 - \bm{x}_i^T\bm{\hat{\beta}}_{2})^2}{N}$$
 
-Then we look at the likelihood in \ref{eq:likelihood_2genes}.
+Then we look at the likelihood in (\ref{eq:likelihood_2genes})).
 \begin{equation}
 \begin{multlined}
 \ell(\bm{\alpha}, \alpha_0, \bm{b}, \bm{\beta}, \rho_{11}, \rho_{22}) = \\
@@ -674,7 +392,7 @@ $$
 $$\frac{\partial \sigma_{wi}^2}{\partial \rho_{11}} = -\frac{\rho_{12}(\bm{x}_i^T\bm{\alpha} + \alpha_0)}{\sqrt{\rho_{11}^3\rho_{22}}}, \hspace{5mm}
 \frac{\partial \sigma_{vi}^2}{\partial \rho_{11}} = -\frac{\rho_{12}(\bm{x}_i^T\bm{\alpha} + \alpha_0)}{\sqrt{\rho_{11}\rho_{22}^3}}$$
 
-\noindent We additionally define $\hat{u}_{wi}^2$ and $\hat{v}_{wi}^2$ as the residuals from the linear regression: $(w_i - \hat{\mu}_{wi})^2$ and $(v_i-\hat{\mu}_{vi})^2$ respectively, where $\hat{\mu}_{wi}$ and $\hat{\mu}_{vi}$ are $\mu_{wi}$ and $\mu_{vi}$ with $\bm{b}$ and $\bm{\beta}$ replaced with $\hat{\bm{b}}$ and $\hat{\bm{\beta}}$.\\
+\noindent We additionally define $\hat{u}_{wi}^2$ and $\hat{v}_{wi}^2$ as $(w_i - \hat{\mu}_{wi})^2$ and $(v_i-\hat{\mu}_{vi})^2$ respectively, where $\hat{\mu}_{wi}$ and $\hat{\mu}_{vi}$ are $\mu_{wi}$ and $\mu_{vi}$ with $\bm{b}$ and $\bm{\beta}$ replaced with $\hat{\bm{b}}$ and $\hat{\bm{\beta}}$.\\
 
 \noindent The maximum likelihood estimates for $\sigma_{wi}^2$ and $\sigma_{vi}^2$ are as follows.
 $$\hat{\sigma}_{wi}^2 = \frac{1}{N} \sum_{i=1}^{N} \hat{u}_{wi}^2, \hspace{5mm} 
@@ -918,10 +636,10 @@ from
 $$E(\hat{u}_{i1}^4) = 3, \hspace{5mm} E(\hat{u}_{i1}^3 \hat{u}_{i2}) = 3\tau_{12}, \hspace{5mm} E(\hat{u}_{i1}^2\hat{u}_{i2}^2) = 1 + 2\tau_{12}^2,$$
 $$E(\hat{u}_{i1}^2 \hat{u}_{i2} \hat{u}_{i3}) = \tau_{23} + 2\tau_{12}\tau_{13}.$$
 
-\section{Appendix C. Details of Small Sample Correction}
-Although the introduced test statistic $q$ asymptotically follows $\chi_1^2$, the sample size is not large enough in many applications. The statistic has its error in the order of $N^{-1}$ \cite{harris1985asymptotic}, and many Monte Carlo experiments show that the test rejects the null hypothesis less frequently than indicated by its nominal size \cite{godfrey1978testing, griffiths1986monte, honda1988size} . In response, Harris (1985) used Edgeworth expansion to obtain the distribution and moment generating function to order $n^{-1}$ of the test statistic \cite{harris1985asymptotic}. Building on this expansion, Honda (1986) and Cribari-Neto and Ferrari (2001) proposed corrections to the critical value or to the test statistic that allows better inference even when the sample size is small while preserving the asymptotic properties. \cite{cribari1995improved, cribari2001monotonic, honda1988size}\\
+\section*{Appendix C. Details of Small Sample Correction}
+Although the introduced test statistic $q$ asymptotically follows $\chi_1^2$, the statistic has its error in the order of $N^{-1}$ (\cite{harris1985asymptotic}) with finite sample size $N$, and many Monte Carlo experiments show that the test rejects the null hypothesis less frequently than indicated by its nominal size (\cite{godfrey1978testing, griffiths1986monte, honda1988size}). In response, Harris (1985) used Edgeworth expansion to obtain the distribution and moment generating function to order $N^{-1}$ of the test statistic (\cite{harris1985asymptotic}). Building on this expansion, Honda (1986) and Cribari-Neto and Ferrari (2001) proposed corrections to the critical value or to the test statistic that allows better inference even when the sample size is small while preserving the asymptotic properties.\\
 
-Honda (1988) provided a closed-form formula to adjust the critical value in the order of $O(n^{-1})$ to correct the type I error of the test. This adjustment, only depending on the covariate, sample size, and the degrees of freedom, but not on the data, is a cubic function with respect to $C_{\gamma}$, the critical value at the level of type I error $\gamma$, i.e. $P(\chi_{P}^2 \geq C_{\gamma}) = \gamma$, and we refer to this cubic function as $g$ defined as follows.
+Honda (1988) provided a closed-form formula to adjust the critical value in the order of $O(N^{-1})$ to correct the type I error of the test. This adjustment, only depending on the covariate, sample size, and the degrees of freedom, but not on the data, is a cubic function with respect to $C_{\gamma}$, the critical value at the level of type I error $\gamma$, i.e. $P(\chi_{P}^2 \geq C_{\gamma}) = \gamma$, and we refer to this cubic function as $g$ defined as follows.
 
 \begin{equation}
     \begin{multlined}
@@ -937,19 +655,19 @@ where the scalars $A_1$, $A_2$, and $A_3$ follow the notation of Honda (1988) di
 One of the desirable properties of $g$ would be monotonicity, because regardless of sample size, we would like to maintain the same ordering of the strength of evidence against the null. This turns out to be almost always true in practice. The derivative of $g(C)$ is 
 $$g'(C_{\gamma}) = \frac{A_3}{12NP}\left( \frac{A_3-A_2+A_1+12NP}{A_3} + 
  \frac{2(A_2-2A_3)}{(P+2)A_3}C_{\gamma} + \frac{3}{(P+2)(P+4)}C_{\gamma}^2 \right)$$
-$A_3$ is strictly positive by definition, and we can solve the above quadratic equation to see in which case the derivative is positive \cite{cribari1995improved}. In other words, we can study when the following discriminant is complex.
+$A_3$ is strictly positive by definition, and we can solve the above quadratic equation to see in which case the derivative is positive (\cite{cribari1995improved}). In other words, we can study when the following discriminant is complex.
 $$\sqrt{\left(\frac{2(A_2-2A_3)^2}{(P+2)A_3}\right)^2 - 4\cdot\frac{3A_3(A_3-A_2+A_1)}{(P+2)(P+4)A_3} - 4\cdot
 \frac{3 \cdot 12NP}{(P+2)(P+4)}}$$
-The first two terms inside the square root are $O(1)$ and the last term is $O(n)$, so we can see that the discriminant becomes complex quickly as $n$ increases. Also when the covariates are simulated from normal distribution, $g'(C)$ was always positive unless $n<3$. \\
+The first two terms inside the square root are $O(1)$ and the last term is $O(N)$, so we can see that the discriminant becomes complex quickly as $N$ increases. Also when the covariates are simulated from normal distribution, $g'(C)$ was always positive unless $n<3$. \\
 
 
-Similar argument is offered in Cribari (1995) \cite{cribari1995improved}. Based on the correction of the critical value in (\ref{eq:hondacorrection}), Cribari (1995) proposes to subtract the correction $\tilde{g}(C_{\gamma})$ so that
+Similar argument is offered in Cribari-Neto and Ferrari (1995). Based on the correction of the critical value in (\ref{eq:hondacorrection}), Cribari (1995) proposes to subtract the correction $\tilde{g}(C_{\gamma})$ so that
 $$P(q  \geq g(C_{\gamma})) = P(q \geq C_{\gamma} + \tilde{g}(C_{\gamma})) = P(q - \tilde{g}(C_{\gamma}) \geq C_{\gamma}).$$
 This treats the correction as de-biasing instead of changing the overall shape of the distribution. Although this adjustment of the test statistic corrects the size of the test at a given threshold, it prevents further analysis when we combine the test statistics in (\ref{eq:d}). 
 
 \vspace{5mm} 
 Instead, we aim to adjust the test statistic so that the overall shape of null distribution is closer to $\chi_{P}^2$. We assume a large enough sample size for monotonicity of $g$ and define the inverse function of $g$ to propose the new adjusted test statistic $\tilde{q}_{12}$ = $g^{-1}(q)$
-$$\gamma = P(\chi_{P}^2 \geq C_{\gamma}) = P(q \geq g(C_{\gamma})) = P(g^{-1}(q) \geq C_{\gamma})$$
+$$\gamma = P(\chi_{P}^2 \geq C_{\gamma}) = P(q \geq g(C_{\gamma})) = P(g^{-1}(q) \geq C_{\gamma}).$$
 Our final test statistic $\tilde{q}_{12}$ is the real solution to the following equation 
 $$q - g(C_{\gamma}) = 0$$
 which is guaranteed to be unique by the monotonicity of $g$. The cubic equation can be solved both analytically and numerically efficiently given the covariate $X$. 
