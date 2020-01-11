@@ -264,8 +264,7 @@ Rcpp::List get_TT_RR_c(arma::mat A){
 
 //' @export
 // [[Rcpp::export]]
-arma::vec cubic_coeff(arma::mat x,
-                          double C){
+arma::vec cubic_coeff(arma::mat x){
   int p = x.n_cols + 1;
   int k = p;
   arma::mat A = orth(x) * sqrt(x.n_rows);
