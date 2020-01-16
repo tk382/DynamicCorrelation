@@ -166,14 +166,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // cubic_coeff
-arma::vec cubic_coeff(arma::mat x, double C);
-RcppExport SEXP _DynamicCorrelation_cubic_coeff(SEXP xSEXP, SEXP CSEXP) {
+arma::vec cubic_coeff(arma::mat x);
+RcppExport SEXP _DynamicCorrelation_cubic_coeff(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type C(CSEXP);
-    rcpp_result_gen = Rcpp::wrap(cubic_coeff(x, C));
+    rcpp_result_gen = Rcpp::wrap(cubic_coeff(x));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -241,7 +240,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_DynamicCorrelation_get_A2_c", (DL_FUNC) &_DynamicCorrelation_get_A2_c, 5},
     {"_DynamicCorrelation_get_A3_c", (DL_FUNC) &_DynamicCorrelation_get_A3_c, 5},
     {"_DynamicCorrelation_get_TT_RR_c", (DL_FUNC) &_DynamicCorrelation_get_TT_RR_c, 1},
-    {"_DynamicCorrelation_cubic_coeff", (DL_FUNC) &_DynamicCorrelation_cubic_coeff, 2},
+    {"_DynamicCorrelation_cubic_coeff", (DL_FUNC) &_DynamicCorrelation_cubic_coeff, 1},
     {"_DynamicCorrelation_shuffle_x_c", (DL_FUNC) &_DynamicCorrelation_shuffle_x_c, 2},
     {"_DynamicCorrelation_store_W_c", (DL_FUNC) &_DynamicCorrelation_store_W_c, 2},
     {"_DynamicCorrelation_store_V_c", (DL_FUNC) &_DynamicCorrelation_store_V_c, 2},

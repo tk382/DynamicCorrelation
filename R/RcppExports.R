@@ -95,8 +95,8 @@ get_TT_RR_c <- function(A) {
 }
 
 #' @export
-cubic_coeff <- function(x, C) {
-    .Call('_DynamicCorrelation_cubic_coeff', PACKAGE = 'DynamicCorrelation', x, C)
+cubic_coeff <- function(x) {
+    .Call('_DynamicCorrelation_cubic_coeff', PACKAGE = 'DynamicCorrelation', x)
 }
 
 #' @export
