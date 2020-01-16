@@ -17,5 +17,7 @@ Imports:
     RcppArmadillo,
     stats,
     MASS,
-    dplyr
+    dplyr,
+    irlba,
+    magrittr
 RoxygenNote: 6.1.1
