@@ -38,7 +38,7 @@ get_score = function(x, y1, y2){
   b = mean(y2*y2)
   d = mean(y1*y2)
   const = 1/(a*b+d^2)
-  return(const
+  return(const*
          (t(get_newgrad(x, y1, y2))  %*%
              get_newfisher(x,y1,y2) %*%
              get_newgrad(x,y1,y2)))
@@ -53,7 +53,7 @@ get_score = function(x, y1, y2){
 #' @export
 get_degree = function(x, y, Y){
   d = 0
-  for (k in 1:ncols(Y)){
+  for (k in 1:ncol(Y)){
     d = d + get_score(x, y, Y[,k])
   }
   return(d)
@@ -95,7 +95,7 @@ get_H = function(Sigma){
 # }
 
 
-#' Estimate H
+#' Estimate p-value from the degree statistic
 #'
 #' @param y vector: main variable of interest
 #' @param Y Matrix: other variables of interest to measure the correlation with y
@@ -114,7 +114,7 @@ get_p_from_degree = function(y, Y, d, numsim = 5000){
   for (k in 1:(K-1)){
     null_d[,k] = rgamma(numsim, 1/2, 1/(2*lambda[k]))
   }
-  p = sum(rowSums(null_d) > d)/numsim
+  p = sum(rowSums(null_d) > as.numeric(d))/numsim
   return(p)
 }
 
