@@ -164,8 +164,7 @@ arma::mat mvrnormArma(const int n,
 // }
 //
 
-//' @export
-// [[Rcpp::export]]
+
 double get_A1_c(int k,
                 int p,
                 arma::mat TT,
@@ -186,8 +185,7 @@ double get_A1_c(int k,
 }
 
 
-//' @export
-// [[Rcpp::export]]
+
 double get_A2_c(int k,
                 int p,
                 arma::mat TT,
@@ -210,8 +208,6 @@ double get_A2_c(int k,
 }
 
 
-//' @export
-// [[Rcpp::export]]
 double get_A3_c(int k,
                 int p,
                 arma::mat TT,
@@ -229,8 +225,6 @@ double get_A3_c(int k,
 }
 
 
-//' @export
-// [[Rcpp::export]]
 Rcpp::List get_TT_RR_c(arma::mat A){
   int n = A.n_rows;
   int P = A.n_cols;
@@ -262,8 +256,6 @@ Rcpp::List get_TT_RR_c(arma::mat A){
 
 
 
-//' @export
-// [[Rcpp::export]]
 arma::vec cubic_coeff(arma::mat x){
   int p = x.n_cols + 1;
   int k = p;
@@ -285,8 +277,6 @@ arma::vec cubic_coeff(arma::mat x){
 
 
 
-//' @export
-// [[Rcpp::export]]
 arma::mat shuffle_x_c(arma::vec x, int B){
   arma::mat X(x.size(), B);
   for (int b=0; b < B; ++b){
@@ -295,8 +285,7 @@ arma::mat shuffle_x_c(arma::vec x, int B){
   return X;
 }
 
-//' @export
-// [[Rcpp::export]]
+
 arma::mat store_W_c(const arma::vec y,
                     const arma::mat smallY){
   int n = smallY.n_rows;
@@ -308,8 +297,6 @@ arma::mat store_W_c(const arma::vec y,
   return W;
 }
 
-//' @export
-// [[Rcpp::export]]
 arma::mat store_V_c(const arma::vec y,
                     const arma::mat smallY){
   int n = smallY.n_rows;
