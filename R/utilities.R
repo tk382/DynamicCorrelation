@@ -1,12 +1,109 @@
-#' Computes the small sample correction
+#' Computes the score of the log likelihood
 #'
-#' @param y main vector to test against
-#' @param Y matrix of target vectors
-#' @param d degree statistic
-#' @param numsim number of simulations for null distribution
-#' @return p-value
+#' @param x covariate matrix to test
+#' @param y1 vector of first variable
+#' @param y2 vector of second variable
+#' @return score vector of the bivariate normal likelihood
 #' @export
-get_p_from_degree = function(y, Y, d, numsim = 5000) {
+get_newgrad = function(x, y1, y2){
+  d = mean(y1*y2)
+  xmat = cbind(rep(1, length(x)), x)
+  return(colSums((y1*y2-d)*xmat))
+}
+#' Computes the inverse Fisher information of the log likelihood
+#'
+#' @param x covariate matrix to test
+#' @param y1 vector of first variable
+#' @param y2 vector of second variable
+#' @return Matrix of inverse fisher information of the bivariate normal likelihood
+#' @export
+get_newfisher = function(x, y1, y2){
+  a = mean(y1*y1)
+  b = mean(y2*y2)
+  d = mean(y1*y2)
+  xmat = cbind(rep(1, length(x)),x)
+  tmpmat = solve(t(xmat) %*% xmat)
+  return(tmpmat)
+}
+
+#' Computes the score statistic
+#'
+#' @param x covariate matrix to test
+#' @param y1 vector of first variable
+#' @param y2 vector of second variable
+#' @return double score statistic
+#' @export
+get_score = function(x, y1, y2){
+  a = mean(y1*y1)
+  b = mean(y2*y2)
+  d = mean(y1*y2)
+  const = 1/(a*b+d^2)
+  return(const
+         (t(get_newgrad(x, y1, y2))  %*%
+             get_newfisher(x,y1,y2) %*%
+             get_newgrad(x,y1,y2)))
+}
+
+#' Computes the score statistic
+#'
+#' @param x covariate matrix to test
+#' @param y vector of main variable
+#' @param Y matrix of the rest of the variables. The row number of Y should match the length of y.
+#' @return double: degree statistic
+#' @export
+get_degree = function(x, y, Y){
+  d = 0
+  for (k in 1:ncols(Y)){
+    d = d + get_score(x, y, Y[,k])
+  }
+  return(d)
+}
+
+get_eta = function(rho12, rho23, rho13, rho11, rho22, rho33){
+  num = (rho23 + rho12*rho13)
+  denom = sqrt(rho11*rho22-rho12^2)*sqrt(rho11*rho33-rho13^2)
+  return(num/denom)
+}
+#' Estimate H
+#'
+#' @param Sigma True or estimated variance of all the variables of interest.
+#' The first row / column must be the main variable of interest
+#' @return Esitmated covariance matrix of the part of score statistics
+#' @export
+get_H = function(Sigma){
+  K = nrow(Sigma)
+  est_H = matrix(NA, K-1, K-1)
+  for (i in 2:(K-1)){
+    for (j in (i+1):K){
+      est_H[i-1, j-1] = get_eta(Sigma[1,i], Sigma[i,j], Sigma[j,1],
+                                Sigma[1,1], Sigma[i,i], Sigma[j,j])
+      est_H[j-1, i-1] = est_H[i-1, j-1]
+    }
+  }
+  diag(est_H) = 1
+  return(est_H)
+}
+
+#
+# get_degree = function(x, y1, Y){
+#   scores = rep(NA, ncol(Y))
+#   for (i in 1:ncol(Y)){
+#     scores[i] = get_newscores(x, y1, Y[,i])
+#   }
+#   d = sum(scores)
+#   return(d)
+# }
+
+
+#' Estimate H
+#'
+#' @param y vector: main variable of interest
+#' @param Y Matrix: other variables of interest to measure the correlation with y
+#' @param d double: computed degree statistic
+#' @param numsim integer: number of simulations to draw the null distribution
+#' @return p value of the degree statistic
+#' @export
+get_p_from_degree = function(y, Y, d, numsim = 5000){
   bigy = cbind(y, Y)
   K = ncol(bigy)
   est_Sigma = stats::cor(bigy)
@@ -20,6 +117,8 @@ get_p_from_degree = function(y, Y, d, numsim = 5000) {
   p = sum(rowSums(null_d) > d)/numsim
   return(p)
 }
+
+
 
 #' Computes the small sample correction
 #'

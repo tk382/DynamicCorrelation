@@ -5,13 +5,12 @@ using namespace std;
 
 //const double log2pi = std::log(2.0 * M_PI);
 
-// [[Rcpp::depends("RcppArmadillo")]]
-// [[Rcpp::export]]
 arma::vec get_grad_c(const double sigw,
                       const double sigv,
                       const arma::vec uw,
                       const arma::vec uv,
                       const arma::mat x){
+
   arma::vec tmp1 = uw%uw / (sigw * sigw);
   arma::vec tmp2 = uv%uv / (sigv * sigv);
   arma::vec tmp3 = arma::zeros<arma::vec>(uw.size());
@@ -27,6 +26,7 @@ arma::vec get_grad_c(const double sigw,
   return grad;
 }
 
+
 // [[Rcpp::export]]
 double const_c(const double sigw,
         const double sigv){
@@ -34,56 +34,56 @@ double const_c(const double sigw,
   return 1/tmp;
 }
 
-//' get_score
-//' The order of y1 and y2 does not matter.
-//'
-//' @param y1 observation of the first variable
-//' @param y2 observation of the second variable
-//' @param x covariate vector
-//'
-//' @export
-//' @example
-//' x = rnorm(100)
-//' y1 = rnorm(100)
-//' y2 = rnorm(100)
-//' q = get_score(x, y1, y2)
-// [[Rcpp::export]]
-double get_score(const arma::mat x,
-            const arma::vec y1,
-            const arma::vec y2){
-  arma::mat B = orth(x) * sqrt(x.n_rows);
-  arma::vec w = y1 + y2;
-  arma::vec v = y1 - y2;
-  int n = w.size();
-  double sigw = sum(w%w)/n;
-  double sigv = sum(v%v)/n;
-  arma::vec grad = get_grad_c(sigw, sigv, w, v, B);
-  double fisherinf = const_c(sigw, sigv);
-  double q = sum(grad%grad) / n * fisherinf;
-  return q;
-}
+// //' get_score
+// //' The order of y1 and y2 does not matter.
+// //'
+// //' @param y1 observation of the first variable
+// //' @param y2 observation of the second variable
+// //' @param x covariate vector
+// //'
+// //' @export
+// //' @example
+// //' x = rnorm(100)
+// //' y1 = rnorm(100)
+// //' y2 = rnorm(100)
+// //' q = get_score(x, y1, y2)
+// // [[Rcpp::export]]
+// double get_score(const arma::mat x,
+//             const arma::vec y1,
+//             const arma::vec y2){
+//   arma::mat B = orth(x) * sqrt(x.n_rows);
+//   arma::vec w = y1 + y2;
+//   arma::vec v = y1 - y2;
+//   int n = w.size();
+//   double sigw = sum(w%w)/n;
+//   double sigv = sum(v%v)/n;
+//   arma::vec grad = get_grad_c(sigw, sigv, w, v, B);
+//   double fisherinf = const_c(sigw, sigv);
+//   double q = sum(grad%grad) / n * fisherinf;
+//   return q;
+// }
 
-//' get_score_wv_c
-//'
-//' This function takes the sum of two variables, w, the difference of them, v, and one dimensional covariate x
-//' and returns the score test statistic
-//'
-//' @param x Covariate vector
-//' @param w sum of variable1 and variable2
-//' @param v difference of variable1 and variable2
-//' @export
-// [[Rcpp::export]]
-double get_score_wv_c(const arma::mat x,
-                     const arma::vec w,
-                     const arma::vec v) {
-  int n = w.size();
-  double sigw = sum(w%w)/n;
-  double sigv = sum(v%v)/n;
-  arma::vec grad = get_grad_c(sigw, sigv, w, v, x);
-  double fisherinf = const_c(sigw, sigv);
-  double q = sum(grad%grad) / n * fisherinf;
-  return q;
-}
+// //' get_score_wv_c
+// //'
+// //' This function takes the sum of two variables, w, the difference of them, v, and one dimensional covariate x
+// //' and returns the score test statistic
+// //'
+// //' @param x Covariate vector
+// //' @param w sum of variable1 and variable2
+// //' @param v difference of variable1 and variable2
+// //' @export
+// // [[Rcpp::export]]
+// double get_score_wv_c(const arma::mat x,
+//                      const arma::vec w,
+//                      const arma::vec v) {
+//   int n = w.size();
+//   double sigw = sum(w%w)/n;
+//   double sigv = sum(v%v)/n;
+//   arma::vec grad = get_grad_c(sigw, sigv, w, v, x);
+//   double fisherinf = const_c(sigw, sigv);
+//   double q = sum(grad%grad) / n * fisherinf;
+//   return q;
+// }
 
 //' mvrnormArma
 //'
@@ -108,61 +108,61 @@ arma::mat mvrnormArma(const int n,
 }
 
 
-//' get_degree_c
-//'
-//' This function returns a sum statistic d for vector y tested with all other variables in matrix Y against covariate x
-//'
-//' @param x Covariate vector
-//' @param y Variable of interest
-//' @param Y All other variables to test with y
-//' @export
-// [[Rcpp::export]]
-double get_degree(const arma::mat x,
-                    const arma::vec y,
-                    const arma::mat Y){
-  //degree statistic for i'th gene based on matrix Y
-  arma::mat B = orth(x) * sqrt(x.n_rows);
-  int K = Y.n_cols;
-  double d = 0;
-  for (int i=0; i < K; ++i){
-    d = d + get_score(B, y, Y.col(i));
-  }
-  return d;
-}
+// //' get_degree_c
+// //'
+// //' This function returns a sum statistic d for vector y tested with all other variables in matrix Y against covariate x
+// //'
+// //' @param x Covariate vector
+// //' @param y Variable of interest
+// //' @param Y All other variables to test with y
+// //' @export
+// // [[Rcpp::export]]
+// double get_degree(const arma::mat x,
+//                     const arma::vec y,
+//                     const arma::mat Y){
+//   //degree statistic for i'th gene based on matrix Y
+//   arma::mat B = orth(x) * sqrt(x.n_rows);
+//   int K = Y.n_cols;
+//   double d = 0;
+//   for (int i=0; i < K; ++i){
+//     d = d + get_score(B, y, Y.col(i));
+//   }
+//   return d;
+// }
 
 
+//
+// //' @export
+// // [[Rcpp::export]]
+// double get_eta(const double rho12,
+//                  const double rho23,
+//                  const double rho13){
+//   double num = (rho23 + 2 * rho12 * rho23)* (rho12*rho12+1) * (rho13*rho13 + 1);
+//   num = num + rho12 * rho13* (6 + 2 * rho12 + 2 * rho13 + 2 * rho23);
+//   num = num - rho12 * (rho13*rho13 + 1) * (3*rho13 + rho13 + 2 * rho12*rho23);
+//   num = num - rho13 * (rho12*rho12 + 1) * (3*rho12 + rho12 + 2 * rho13 * rho23);
+//   double denom = (1-rho12*rho12)*(1-rho13*rho13) * sqrt(1+rho12*rho12) * sqrt(1+rho13*rho13);
+//   return num/denom;
+// }
 
-//' @export
-// [[Rcpp::export]]
-double get_eta(const double rho12,
-                 const double rho23,
-                 const double rho13){
-  double num = (rho23 + 2 * rho12 * rho23)* (rho12*rho12+1) * (rho13*rho13 + 1);
-  num = num + rho12 * rho13* (6 + 2 * rho12 + 2 * rho13 + 2 * rho23);
-  num = num - rho12 * (rho13*rho13 + 1) * (3*rho13 + rho13 + 2 * rho12*rho23);
-  num = num - rho13 * (rho12*rho12 + 1) * (3*rho12 + rho12 + 2 * rho13 * rho23);
-  double denom = (1-rho12*rho12)*(1-rho13*rho13) * sqrt(1+rho12*rho12) * sqrt(1+rho13*rho13);
-  return num/denom;
-}
 
-
-//' @export
-// [[Rcpp::export]]
-arma::mat get_H(const arma::mat Sigma){
-  int K = Sigma.n_rows;
-  arma::mat est_H = arma::zeros<arma::mat>(K-1, K-1);
-  double eta;
-  for (int i=1; i < K-1; ++i){
-    for (int j=(i+1); j < K; ++j){
-      eta = get_eta(Sigma(0,i), Sigma(i,j), Sigma(j,0));
-      est_H(i-1, j-1) = eta;
-      est_H(j-1, i-1) = eta;
-    }
-  }
-  est_H.diag().ones();
-  return est_H;
-}
-
+// //' @export
+// // [[Rcpp::export]]
+// arma::mat get_H(const arma::mat Sigma){
+//   int K = Sigma.n_rows;
+//   arma::mat est_H = arma::zeros<arma::mat>(K-1, K-1);
+//   double eta;
+//   for (int i=1; i < K-1; ++i){
+//     for (int j=(i+1); j < K; ++j){
+//       eta = get_eta(Sigma(0,i), Sigma(i,j), Sigma(j,0));
+//       est_H(i-1, j-1) = eta;
+//       est_H(j-1, i-1) = eta;
+//     }
+//   }
+//   est_H.diag().ones();
+//   return est_H;
+// }
+//
 
 //' @export
 // [[Rcpp::export]]
@@ -322,35 +322,35 @@ arma::mat store_V_c(const arma::vec y,
 }
 
 
-//' bootstrap_c
-//'
-//' This function performs permutation test for given covariate x B times
-//' Also takes as input W instead of Y matrix
-//'
-//' @param x Covariate vector
-//' @param B number of permutations
-//' @param W sum of the main variable and each target
-//' @param V difference of the main variable and each target
-//' @export
-// [[Rcpp::export]]
-arma::mat bootstrap_c(const arma::vec x,
-                      const int B,
-                      const arma::mat W,
-                      const arma::mat V){
-  arma::mat Xb = shuffle_x_c(x, B);
-  const int K = W.n_cols+1;
-  arma::mat out(B, K-1);
-  for (int b = 0; b < B; ++b){
-    for (int k = 0; k < (K-1); ++k){
-      out(b, k) = get_score_wv_c(Xb.col(b), W.col(k), V.col(k));
-    }
-  }
-  return out;
-}
-
-
-
-
+// //' bootstrap_c
+// //'
+// //' This function performs permutation test for given covariate x B times
+// //' Also takes as input W instead of Y matrix
+// //'
+// //' @param x Covariate vector
+// //' @param B number of permutations
+// //' @param W sum of the main variable and each target
+// //' @param V difference of the main variable and each target
+// //' @export
+// // [[Rcpp::export]]
+// arma::mat bootstrap_c(const arma::vec x,
+//                       const int B,
+//                       const arma::mat W,
+//                       const arma::mat V){
+//   arma::mat Xb = shuffle_x_c(x, B);
+//   const int K = W.n_cols+1;
+//   arma::mat out(B, K-1);
+//   for (int b = 0; b < B; ++b){
+//     for (int k = 0; k < (K-1); ++k){
+//       out(b, k) = get_score_wv_c(Xb.col(b), W.col(k), V.col(k));
+//     }
+//   }
+//   return out;
+// }
+//
+//
+//
+//
 
 
 

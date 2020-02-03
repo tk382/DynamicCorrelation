@@ -2,22 +2,22 @@
 % Please edit documentation in R/utilities.R
 \name{get_p_from_degree}
 \alias{get_p_from_degree}
-\title{Computes the small sample correction}
+\title{Estimate H}
 \usage{
 get_p_from_degree(y, Y, d, numsim = 5000)
 }
 \arguments{
-\item{y}{main vector to test against}
+\item{y}{vector: main variable of interest}
 
-\item{Y}{matrix of target vectors}
+\item{Y}{Matrix: other variables of interest to measure the correlation with y}
 
-\item{d}{degree statistic}
+\item{d}{double: computed degree statistic}
 
-\item{numsim}{number of simulations for null distribution}
+\item{numsim}{integer: number of simulations to draw the null distribution}
 }
 \value{
-p-value
+p value of the degree statistic
 }
 \description{
-Computes the small sample correction
+Estimate H
 }

@@ -6,21 +6,6 @@
 
 using namespace Rcpp;
 
-// get_grad_c
-arma::vec get_grad_c(const double sigw, const double sigv, const arma::vec uw, const arma::vec uv, const arma::mat x);
-RcppExport SEXP _DynamicCorrelation_get_grad_c(SEXP sigwSEXP, SEXP sigvSEXP, SEXP uwSEXP, SEXP uvSEXP, SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const double >::type sigw(sigwSEXP);
-    Rcpp::traits::input_parameter< const double >::type sigv(sigvSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type uw(uwSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type uv(uvSEXP);
-    Rcpp::traits::input_parameter< const arma::mat >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_grad_c(sigw, sigv, uw, uv, x));
-    return rcpp_result_gen;
-END_RCPP
-}
 // const_c
 double const_c(const double sigw, const double sigv);
 RcppExport SEXP _DynamicCorrelation_const_c(SEXP sigwSEXP, SEXP sigvSEXP) {
@@ -30,32 +15,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const double >::type sigw(sigwSEXP);
     Rcpp::traits::input_parameter< const double >::type sigv(sigvSEXP);
     rcpp_result_gen = Rcpp::wrap(const_c(sigw, sigv));
-    return rcpp_result_gen;
-END_RCPP
-}
-// get_score
-double get_score(const arma::mat x, const arma::vec y1, const arma::vec y2);
-RcppExport SEXP _DynamicCorrelation_get_score(SEXP xSEXP, SEXP y1SEXP, SEXP y2SEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type y1(y1SEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type y2(y2SEXP);
-    rcpp_result_gen = Rcpp::wrap(get_score(x, y1, y2));
-    return rcpp_result_gen;
-END_RCPP
-}
-// get_score_wv_c
-double get_score_wv_c(const arma::mat x, const arma::vec w, const arma::vec v);
-RcppExport SEXP _DynamicCorrelation_get_score_wv_c(SEXP xSEXP, SEXP wSEXP, SEXP vSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type w(wSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type v(vSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_score_wv_c(x, w, v));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -69,43 +28,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::vec >::type mu(muSEXP);
     Rcpp::traits::input_parameter< const arma::mat >::type Sigma(SigmaSEXP);
     rcpp_result_gen = Rcpp::wrap(mvrnormArma(n, mu, Sigma));
-    return rcpp_result_gen;
-END_RCPP
-}
-// get_degree
-double get_degree(const arma::mat x, const arma::vec y, const arma::mat Y);
-RcppExport SEXP _DynamicCorrelation_get_degree(SEXP xSEXP, SEXP ySEXP, SEXP YSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const arma::vec >::type y(ySEXP);
-    Rcpp::traits::input_parameter< const arma::mat >::type Y(YSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_degree(x, y, Y));
-    return rcpp_result_gen;
-END_RCPP
-}
-// get_eta
-double get_eta(const double rho12, const double rho23, const double rho13);
-RcppExport SEXP _DynamicCorrelation_get_eta(SEXP rho12SEXP, SEXP rho23SEXP, SEXP rho13SEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const double >::type rho12(rho12SEXP);
-    Rcpp::traits::input_parameter< const double >::type rho23(rho23SEXP);
-    Rcpp::traits::input_parameter< const double >::type rho13(rho13SEXP);
-    rcpp_result_gen = Rcpp::wrap(get_eta(rho12, rho23, rho13));
-    return rcpp_result_gen;
-END_RCPP
-}
-// get_H
-arma::mat get_H(const arma::mat Sigma);
-RcppExport SEXP _DynamicCorrelation_get_H(SEXP SigmaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat >::type Sigma(SigmaSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_H(Sigma));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -212,30 +134,10 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// bootstrap_c
-arma::mat bootstrap_c(const arma::vec x, const int B, const arma::mat W, const arma::mat V);
-RcppExport SEXP _DynamicCorrelation_bootstrap_c(SEXP xSEXP, SEXP BSEXP, SEXP WSEXP, SEXP VSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const int >::type B(BSEXP);
-    Rcpp::traits::input_parameter< const arma::mat >::type W(WSEXP);
-    Rcpp::traits::input_parameter< const arma::mat >::type V(VSEXP);
-    rcpp_result_gen = Rcpp::wrap(bootstrap_c(x, B, W, V));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_DynamicCorrelation_get_grad_c", (DL_FUNC) &_DynamicCorrelation_get_grad_c, 5},
     {"_DynamicCorrelation_const_c", (DL_FUNC) &_DynamicCorrelation_const_c, 2},
-    {"_DynamicCorrelation_get_score", (DL_FUNC) &_DynamicCorrelation_get_score, 3},
-    {"_DynamicCorrelation_get_score_wv_c", (DL_FUNC) &_DynamicCorrelation_get_score_wv_c, 3},
     {"_DynamicCorrelation_mvrnormArma", (DL_FUNC) &_DynamicCorrelation_mvrnormArma, 3},
-    {"_DynamicCorrelation_get_degree", (DL_FUNC) &_DynamicCorrelation_get_degree, 3},
-    {"_DynamicCorrelation_get_eta", (DL_FUNC) &_DynamicCorrelation_get_eta, 3},
-    {"_DynamicCorrelation_get_H", (DL_FUNC) &_DynamicCorrelation_get_H, 1},
     {"_DynamicCorrelation_get_A1_c", (DL_FUNC) &_DynamicCorrelation_get_A1_c, 5},
     {"_DynamicCorrelation_get_A2_c", (DL_FUNC) &_DynamicCorrelation_get_A2_c, 5},
     {"_DynamicCorrelation_get_A3_c", (DL_FUNC) &_DynamicCorrelation_get_A3_c, 5},
@@ -244,7 +146,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_DynamicCorrelation_shuffle_x_c", (DL_FUNC) &_DynamicCorrelation_shuffle_x_c, 2},
     {"_DynamicCorrelation_store_W_c", (DL_FUNC) &_DynamicCorrelation_store_W_c, 2},
     {"_DynamicCorrelation_store_V_c", (DL_FUNC) &_DynamicCorrelation_store_V_c, 2},
-    {"_DynamicCorrelation_bootstrap_c", (DL_FUNC) &_DynamicCorrelation_bootstrap_c, 4},
     {NULL, NULL, 0}
 };
 
