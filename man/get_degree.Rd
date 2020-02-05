@@ -24,7 +24,7 @@ n = 30
 k = 3
 nullX = as.matrix(rnorm(30), ncol=1)
 nullY = MASS::mvrnorm(n, rep(0,3), diag(3))
-d = get_degree(as.matrix(X, ncol=1), Y[,1], Y[,2:3])
-p = get_p_from_degree(Y[,1], Y[,2:3], d)
+d = get_degree(as.matrix(nullX, ncol=1), nullY[,1], nullY[,2:3])
+p = get_p_from_degree(nullY[,1], nullY[,2:3], d)
 print(paste("The degree statistic is", d, "and the p-value is", p))
 }
