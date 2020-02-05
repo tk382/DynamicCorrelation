@@ -33,6 +33,11 @@ get_newfisher = function(x, y1, y2){
 #' @param y2 vector of second variable
 #' @return double score statistic
 #' @export
+#' @examples
+#' x = rnorm(100)
+#' y1 = rnorm(100)
+#' y2 = rnorm(100)
+#' q = get_score(x, y1, y2)
 get_score = function(x, y1, y2){
   a = mean(y1*y1)
   b = mean(y2*y2)
@@ -51,6 +56,14 @@ get_score = function(x, y1, y2){
 #' @param Y matrix of the rest of the variables. The row number of Y should match the length of y.
 #' @return double: degree statistic
 #' @export
+#' @examples
+#' n = 30
+#' k = 3
+#' nullX = as.matrix(rnorm(30), ncol=1)
+#' nullY = MASS::mvrnorm(n, rep(0,3), diag(3))
+#' d = get_degree(as.matrix(X, ncol=1), Y[,1], Y[,2:3])
+#' p = get_p_from_degree(Y[,1], Y[,2:3], d)
+#' print(paste("The degree statistic is", d, "and the p-value is", p))
 get_degree = function(x, y, Y){
   d = 0
   for (k in 1:ncol(Y)){
@@ -103,6 +116,14 @@ get_H = function(Sigma){
 #' @param numsim integer: number of simulations to draw the null distribution
 #' @return p value of the degree statistic
 #' @export
+#' @examples
+#' n = 30
+#' k = 3
+#' nullX = as.matrix(rnorm(30), ncol=1)
+#' nullY = MASS::mvrnorm(n, rep(0,3), diag(3))
+#' d = get_degree(as.matrix(X, ncol=1), Y[,1], Y[,2:3])
+#' p = get_p_from_degree(Y[,1], Y[,2:3], d)
+#' print(paste("The degree statistic is", d, "and the p-value is", p))
 get_p_from_degree = function(y, Y, d, numsim = 5000){
   bigy = cbind(y, Y)
   K = ncol(bigy)

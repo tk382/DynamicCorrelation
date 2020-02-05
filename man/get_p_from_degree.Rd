@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities.R
 \name{get_p_from_degree}
 \alias{get_p_from_degree}
-\title{Estimate H}
+\title{Estimate p-value from the degree statistic}
 \usage{
 get_p_from_degree(y, Y, d, numsim = 5000)
 }
@@ -19,5 +19,14 @@ get_p_from_degree(y, Y, d, numsim = 5000)
 p value of the degree statistic
 }
 \description{
-Estimate H
+Estimate p-value from the degree statistic
+}
+\examples{
+n = 30
+k = 3
+nullX = as.matrix(rnorm(30), ncol=1)
+nullY = MASS::mvrnorm(n, rep(0,3), diag(3))
+d = get_degree(as.matrix(X, ncol=1), Y[,1], Y[,2:3])
+p = get_p_from_degree(Y[,1], Y[,2:3], d)
+print(paste("The degree statistic is", d, "and the p-value is", p))
 }

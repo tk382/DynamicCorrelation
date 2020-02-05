@@ -19,3 +19,9 @@ double score statistic
 \description{
 Computes the score statistic
 }
+\examples{
+x = rnorm(100)
+y1 = rnorm(100)
+y2 = rnorm(100)
+q = get_score(x, y1, y2)
+}
