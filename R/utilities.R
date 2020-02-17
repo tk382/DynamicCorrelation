@@ -73,7 +73,7 @@ get_degree = function(x, y, Y){
 }
 
 get_eta = function(rho12, rho23, rho13, rho11, rho22, rho33){
-  num = (rho23 + rho12*rho13)
+  num = (rho11*rho23 + rho12*rho13)
   denom = sqrt(rho11*rho22-rho12^2)*sqrt(rho11*rho33-rho13^2)
   return(num/denom)
 }
